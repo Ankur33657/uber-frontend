@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 interface signupItems {
   id: number;
   header: string;
@@ -23,7 +25,7 @@ const UserSignup = () => {
   ];
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative h-40 w-full overflow-hidden">
+      <div className="relative h-28 w-full overflow-hidden">
         <Image
           className="w-full h-full object-cover"
           alt="Abstract orange and black geometric wave pattern"
@@ -78,6 +80,32 @@ const UserSignup = () => {
               visibility
             </span>
           </div>
+        </div>
+        <Button>Create Account</Button>
+        <div className="flex justify-center">OR SIGNUP WITH</div>
+        <div className="flex flex-row justify-between">
+          <Button variant="outline" className="w-40">
+            Google
+          </Button>
+          <Button variant="outline" className="w-40">
+            Apple
+          </Button>
+        </div>
+        <div className="flex justify-center gap-1">
+          <span>Already have an account?</span>
+          <Link href="/auth/userlogin" className="underline text-primary">
+            Login
+          </Link>
+        </div>
+        <div className="text-sm text-gray-500 text-center">
+          By signing up, you agree to our{" "}
+          <Link className="underline" href="#">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link className="underline" href="#">
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </div>
