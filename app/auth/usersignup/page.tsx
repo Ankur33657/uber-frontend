@@ -39,24 +39,24 @@ const UserSignup = () => {
           <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
             Join the Ride
           </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm">
+          <p className="text-slate-600 dark:text-slate-400 text-xs">
             Create your account to start traveling
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-2 p-4">
+      <div className="flex flex-col gap-4 p-4">
         {items.map((item) => (
-          <div key={item?.id} className="flex flex-col gap-0.5">
+          <div key={item?.id} className="flex flex-col gap-0.5 text-xs">
             <h1>{item?.header}</h1>
             <Input
               type="text"
               placeholder={item?.palceholder}
-              className="p-5 rounded-md border-gray-300 bg-white"
+              className="p-5 rounded-md border-gray-300 bg-white text-sm"
             />
           </div>
         ))}
         <div className="flex flex-col gap-0.5">
-          <h1>Phone Number</h1>
+          <h1 className="text-xs">Phone Number</h1>
           <PhoneInput
             country="in"
             value="9155738514"
@@ -68,12 +68,12 @@ const UserSignup = () => {
           />
         </div>
         <div className="flex flex-col gap-1">
-          <h1>Password</h1>
+          <h1 className="text-xs">Password</h1>
           <div className="relative">
             <Input
               type="text"
               placeholder="Enter your password"
-              className="p-5 pr-12 rounded-md border-gray-300"
+              className="p-5 pr-12 rounded-md border-gray-300 text-sm"
             />
 
             <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer">
@@ -81,8 +81,8 @@ const UserSignup = () => {
             </span>
           </div>
         </div>
-        <Button>Create Account</Button>
-        <div className="flex justify-center">OR SIGNUP WITH</div>
+        <Button className="text-sm">Create Account</Button>
+        <div className="flex justify-center text-sm">OR SIGNUP WITH</div>
         <div className="flex flex-row justify-between">
           <Button variant="outline" className="w-40">
             Google
@@ -91,19 +91,19 @@ const UserSignup = () => {
             Apple
           </Button>
         </div>
-        <div className="flex justify-center gap-1">
+        <div className="flex justify-center gap-1 text-xs items-center">
           <span>Already have an account?</span>
           <Link href="/auth/userlogin" className="underline text-primary">
             Login
           </Link>
         </div>
-        <div className="text-sm text-gray-500 text-center">
+        <div className="text-xs text-slate-400 text-center fixed bottom-3">
           By signing up, you agree to our{" "}
-          <Link className="underline" href="#">
+          <Link className="underline text-primary" href="#">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link className="underline" href="#">
+          <Link className="underline text-primary" href="#">
             Privacy Policy
           </Link>
         </div>

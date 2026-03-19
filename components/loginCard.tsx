@@ -15,18 +15,18 @@ const LoginCard = ({ item }: { item: LoginCardItems }) => {
         <div className="flex flex-row gap-1">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 items-center">
-              <span className="material-symbols-outlined p-2 bg-amber-100 rounded">
+              <span className="material-symbols-outlined p-1 bg-amber-100 rounded">
                 {item?.icon}
               </span>
-              <h1 className="text-xl font-semibold">{item?.title}</h1>
+              <h1 className="text-md font-semibold">{item?.title}</h1>
             </div>
-            <h2>{item?.descriptions}</h2>
+            <h2 className="text-xs text-slate-400">{item?.descriptions}</h2>
           </div>
           <Image
             src={item?.imagePath || "/file.svg"}
             alt="Image alt"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
           />
         </div>
         <Button
@@ -40,7 +40,7 @@ const LoginCard = ({ item }: { item: LoginCardItems }) => {
             <Spinner />
           ) : (
             <div className="flex flex-row items-center gap-2">
-              <h1 className="text-md font-bold text-white">
+              <h1 className="text-sm font-bold text-white">
                 {item?.buttonText}
               </h1>
               <span className="material-symbols-outlined">

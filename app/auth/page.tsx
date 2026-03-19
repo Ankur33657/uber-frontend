@@ -12,8 +12,8 @@ const Auth = () => {
     <div className="h-full flex flex-col gap-4 p-4">
       <span className="material-symbols-outlined p-2">arrow_left_alt</span>
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold  px-2 mt-5">Welcome to UberX</h1>
-        <h2 className="px-2">How would you like to travel today?</h2>
+        <h1 className="text-2xl font-bold  px-2 mt-5">Welcome to UberX</h1>
+        <h2 className="px-2 text-xs">How would you like to travel today?</h2>
       </div>
 
       <div className="flex flex-col gap-4 justify-center items-center w-full">
@@ -25,7 +25,7 @@ const Auth = () => {
           </ErrorBoundary>
         ))}
       </div>
-      <div className="fixed bottom-2 left-0 right-0 flex justify-center">
+      <div className="fixed bottom-2 left-0 right-0 flex justify-center text-xs">
         <div>
           Need help declining?{" "}
           <Link href="#" className="underline text-primary">
