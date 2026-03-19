@@ -84,7 +84,7 @@ const CaptainLogin = () => {
         </div>
         <p className="text-xs flex justify-center">
           Don&apos;have a Captain Account?
-          <Link className="underline text-primary" href="#">
+          <Link className="underline text-primary" href="/auth/captainsignup">
             Apply to Drive{" "}
           </Link>
         </p>
