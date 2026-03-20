@@ -5,7 +5,7 @@ import BasicDetails from "@/components/captainSignup/basicDetails";
 import BackgroundCheck from "@/components/captainSignup/backgroundCheck";
 import VehicleInspection from "@/components/captainSignup/vehicleInspection";
 const CaptainSignUp = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   return (
     <>
       <div className="flex flex-row justify-between items-center">

@@ -25,7 +25,7 @@ const UserSignup = () => {
   ];
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative h-28 w-full overflow-hidden">
+      <div className="relative h-60 w-full overflow-hidden">
         <Image
           className="w-full h-full object-cover"
           alt="Abstract orange and black geometric wave pattern"
@@ -97,7 +97,7 @@ const UserSignup = () => {
             Login
           </Link>
         </div>
-        <div className="text-xs text-slate-400 text-center fixed bottom-3">
+        <div className="text-xs text-slate-400 text-center">
           By signing up, you agree to our{" "}
           <Link className="underline text-primary" href="#">
             Terms of Service

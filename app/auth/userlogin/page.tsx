@@ -12,14 +12,14 @@ const UserLogin = () => {
           alt="rider Login"
           width={40}
           height={40}
-          className="w-full h-50"
+          className="w-full h-60"
           unoptimized
         />
 
-        <span className=" fixed top-2 left-4 bg-black/20 material-symbols-outlined text-white rounded-full p-1">
+        <span className=" absolute top-2 left-4 bg-black/20 material-symbols-outlined text-white rounded-full p-1">
           arrow_back
         </span>
-        <div className="fixed top-30 left-5 flex flex-col text-white">
+        <div className="absolute top-30 left-5 flex flex-col text-white">
           <p className="text-xs">RIDER LOGIN</p>
           <p className="text-3xl">Welcome Back</p>
           <p className="text-xs mt-2 ml-1">Ready for your next journey</p>
@@ -63,7 +63,7 @@ const UserLogin = () => {
         </Button>
         <Button variant="outline">Apple Id</Button>
         <Button variant="outline">FaceBook</Button>
-        <div className="fixed bottom-2 left-0 right-0 flex justify-center text-xs">
+        <div className="flex justify-center text-xs">
           Don&apos;t have an account?
           <Link href="/auth/usersignup" className="underline text-primary">
             Sign Up
