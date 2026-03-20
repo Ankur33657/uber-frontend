@@ -19,3 +19,11 @@ export const CardItems = [
     route: "/auth/captainlogin",
   },
 ];
+
+export const MobileNavbarItems = [
+  { id: 1, icon: "home", name: "Home", route: "/home" },
+  { id: 2, icon: "history", name: "Activity", route: "/home" },
+  { id: 3, icon: "group", name: "Community", route: "/home" },
+  { id: 4, icon: "account_balance_wallet", name: "Wallet", route: "/home" },
+  { id: 5, icon: "person", name: "Profile", route: "/home" },
+];
