@@ -29,14 +29,40 @@ export default function Home() {
                 <Input
                   type="text"
                   placeholder="Where to ?"
-                  className="p-5  text-sm border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="p-5 text-sm border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
               </div>
               <div className="flex flex-row gap-1 items-center">
-                <span className="material-symbols-outlined text-slate-500">
-                  nest_clock_farsight_analog
+                <span className="material-symbols-outlined text-slate-400">
+                  history_2
                 </span>
                 <p className="text-md font-semibold text-slate-500">Now</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-3 mt-3 bg-white rounded-sm flex flex-col gap-2 divide-y shadow-lg">
+            <div className="flex flex-row gap-2 p-2">
+              <div className="p-2 w-fit rounded-full bg-blue-300 flex items-center justify-center">
+                <span className="material-symbols-outlined text-blue-600">
+                  home
+                </span>
+              </div>
+              <div className="flex flex-col text-start">
+                <p className="text-sm font-bold">Home</p>
+                <p className="text-xs text-slate-400">Add Home address</p>
+              </div>
+            </div>
+
+            <div className="flex flex-row gap-2 p-2">
+              <div className="p-2 w-fit rounded-full bg-blue-300 flex items-center justify-center">
+                <span className="material-symbols-outlined text-blue-600">
+                  work
+                </span>
+              </div>
+              <div className="flex flex-col text-start">
+                <p className="text-sm font-bold">Work</p>
+                <p className="text-xs text-slate-400">Add Work address</p>
               </div>
             </div>
           </div>
