@@ -4,7 +4,7 @@ const MobileNavbar = () => {
   const pathname = usePathname();
   const route = useRouter();
   return (
-    <div className="flex items-center justify-around z-50 p-2">
+    <div className="flex items-center justify-around  p-2">
       {MobileNavbarItems.map((item) => {
         const isActive = pathname === item?.route;
         return (

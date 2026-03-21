@@ -25,13 +25,13 @@ const Community = () => {
 
       <Tabs defaultValue="feed" className="w-full ">
         <TabsList className="w-full flex justify-around" variant="line">
-          <TabsTrigger value="feed" className="flex-1 text-center">
+          <TabsTrigger value="feed" className="flex-1 text-center font-bold">
             Feed
           </TabsTrigger>
-          <TabsTrigger value="news" className="flex-1 text-center">
+          <TabsTrigger value="news" className="flex-1 text-center font-bold">
             News
           </TabsTrigger>
-          <TabsTrigger value="safety" className="flex-1 text-center">
+          <TabsTrigger value="safety" className="flex-1 text-center font-bold">
             Safety
           </TabsTrigger>
         </TabsList>

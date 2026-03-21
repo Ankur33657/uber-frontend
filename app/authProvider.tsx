@@ -8,7 +8,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">
         <div className="flex-1 pb-18">{children}</div>
-        <div className="fixed bottom-0 left-0 w-full h-16 bg-white border-t shadow-md ">
+        <div className="fixed bottom-0 left-0 w-full h-16 bg-white border-t shadow-md z-1000 ">
           <MobileNavbar />
         </div>
       </div>
