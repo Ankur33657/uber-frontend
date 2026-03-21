@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAP_API_KEY || ""}>
       <div className="h-[calc(100vh-64px)] relative">
-        {/*<Map
+        <Map
           zoom={10}
           center={position}
           mapId={process.env.NEXT_PUBLIC_MAP_ID}
@@ -16,7 +16,7 @@ export default function Home() {
         >
           <Direction />
           <AdvancedMarker position={position} />
-        </Map>*/}
+        </Map>
 
         {/* Bottom Panel */}
         <div className="absolute bottom-0 left-0 right-0 z-[999] p-3">
