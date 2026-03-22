@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 const Profile = () => {
   return (
     <div className="flex flex-col gap-4 p-4">
