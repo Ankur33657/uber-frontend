@@ -10,7 +10,6 @@ const LoginCard = lazy(() => import("../../components/loginCard"));
 const Auth = () => {
   return (
     <div className="h-full flex flex-col gap-4 p-4">
-      <span className="material-symbols-outlined p-2">arrow_left_alt</span>
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-bold  px-2 mt-5">Welcome to UberX</h1>
         <h2 className="px-2 text-xs">How would you like to travel today?</h2>

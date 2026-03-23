@@ -1,0 +1,21 @@
+export interface LoginCardItems {
+  id: number;
+  icon: string;
+  title: string;
+  descriptions: string;
+  imagePath: string;
+  buttonText: string;
+  route: string;
+}
+
+export interface LoginPropsItem {
+  email: string;
+  password: string;
+  isVisible: boolean;
+  loading: boolean;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}

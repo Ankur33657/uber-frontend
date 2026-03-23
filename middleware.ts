@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
 const AUTH_ROUTE = [
+  "/",
   "/auth",
   "/auth/usersignup",
   "/auth/userlogin",
@@ -18,18 +19,18 @@ const AUTHENTICATED_ROUTE = [
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isAuthRoute = AUTH_ROUTE.some((item) => pathname.includes(item));
+  const isAuthRoute = AUTH_ROUTE.some((item) => pathname === item);
   const isAuthenticatedRoute = AUTHENTICATED_ROUTE.some((item) =>
-    pathname.includes(item),
+    pathname.startsWith(item),
   );
-  if (isAuthRoute) {
-    return NextResponse.next();
-  } else if (isAuthenticatedRoute) {
-    return NextResponse.next();
-  } else {
+  const token = request.cookies.get("token");
+  if (token && isAuthRoute) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  } else if (!token && isAuthenticatedRoute) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
+  return NextResponse.next();
 }
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
