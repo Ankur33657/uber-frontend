@@ -1,9 +1,10 @@
 "use client";
 import { usePathname } from "next/navigation";
 import MobileNavbar from "@/components/navbar/mobileNavbar";
+import { AUTH_ROUTE } from "@/middleware";
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAuthPage = pathname.startsWith("/auth");
+  const isAuthPage = AUTH_ROUTE.find((item) => item === pathname);
   if (!isAuthPage) {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">

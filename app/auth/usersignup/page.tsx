@@ -200,11 +200,11 @@ const UserSignup = () => {
         </div>
         <div className="text-xs text-slate-400 text-center">
           By signing up, you agree to our{" "}
-          <Link className="underline text-primary" href="#">
+          <Link className="underline text-primary" href="/terms&service">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link className="underline text-primary" href="#">
+          <Link className="underline text-primary" href="/privacy">
             Privacy Policy
           </Link>
         </div>

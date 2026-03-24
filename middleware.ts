@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
-const AUTH_ROUTE = [
+export const AUTH_ROUTE = [
   "/",
   "/auth",
   "/auth/usersignup",
   "/auth/userlogin",
   "/auth/captainlogin",
   "/auth/captainsignup",
+  "/terms&service",
+  "/privacy",
 ];
 const AUTHENTICATED_ROUTE = [
   "/activity",
@@ -36,5 +38,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|terms&service|favicon.ico|privacy|.*\\..*).*)",
+  ],
 };
