@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { LoginPropsItem } from "@/common/types/logintypes";
+import { LoginPropsItem, LoginError } from "@/common/types/logintypes";
 import authServices from "@/services/auth.services";
 import Link from "next/link";
 const UserLogin = () => {
@@ -16,10 +16,25 @@ const UserLogin = () => {
     isVisible: false,
     loading: false,
   });
+  const [error, setError] = useState<LoginError>({
+    state: false,
+    message: "",
+  });
   const userLogin = async () => {
     setLogin((prev) => ({ ...prev, loading: true }));
+    setError({ state: false, message: "" }); 
     const payload = { email: login?.email, password: login?.password };
-    await authServices?.userLogin(payload);
+    try {
+      const res = await authServices?.userLogin(payload);
+      if (res?.data) route.push("/home");
+    } catch (err: any) {
+      setError({
+        state: true,
+        message: err || "Something went wrong. Please try again.",
+      });
+    } finally {
+      setLogin((prev) => ({ ...prev, loading: false }));
+    }
   };
   return (
     <div className="flex flex-col gap-3">
@@ -56,6 +71,9 @@ const UserLogin = () => {
             }
             className="p-5 rounded-md border-gray-300 text-sm"
           />
+          {error?.state && (
+            <p className="text-xs text-red-700 ">{error?.message}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <h1 className="text-xs">Password</h1>

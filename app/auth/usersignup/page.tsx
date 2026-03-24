@@ -1,28 +1,95 @@
 "use client";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-interface signupItems {
-  id: number;
-  header: string;
-  palceholder: string;
-}
+import { Spinner } from "@/components/ui/spinner";
+import authServices from "@/services/auth.services";
+import { signupItems, payloadItems } from "@/common/types/signuptypes";
+import { useRouter } from "next/navigation";
+import Utils from "@/common/utils";
 const UserSignup = () => {
+  const [loading, setLoading] = useState(false);
+  const route = useRouter();
+  const [signup, setSignUp] = useState<payloadItems>({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    passwordVisible: false,
+  });
+  const [error, setError] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    server: "",
+  });
   const items: signupItems[] = [
     {
       id: 1,
       header: "Full Name",
       palceholder: "Joan Doe",
+      error: error?.name,
+      value: signup?.name,
+      onChange: (item: string) =>
+        setSignUp((prev) => ({ ...prev, name: item })),
     },
     {
       id: 2,
       header: "Email Address",
       palceholder: "name@example.com",
+      error: error?.name,
+      value: signup?.email,
+      onChange: (item: string) =>
+        setSignUp((prev) => ({ ...prev, email: item })),
     },
   ];
+
+  const handleSignup = async () => {
+    setLoading(true);
+    setError((prev) => ({
+      ...prev,
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      server: "",
+    }));
+    const isValidate: any = await Utils?.UsersignUpValidation(signup);
+    if (!isValidate?.status) {
+      setError((prev) => ({
+        ...prev,
+        name: isValidate?.data?.name,
+        email: isValidate?.data?.email,
+        password: isValidate?.data?.password,
+        phone: isValidate?.data?.phone,
+      }));
+      console.log(isValidate?.data, "Error");
+      setLoading(false);
+      return;
+    }
+    try {
+      const payload = {
+        name: signup?.name,
+        email: signup?.email,
+        phone: signup?.phone,
+        password: signup?.password,
+      };
+      const res = await authServices?.userSignUp(payload);
+      if (res) route.push("/home");
+    } catch (err: any) {
+      setError((prev) => ({
+        ...prev,
+        server: err?.response?.data?.message || err || "Something went wrong",
+      }));
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col gap-3">
       <div className="relative h-60 w-full overflow-hidden">
@@ -51,37 +118,71 @@ const UserSignup = () => {
             <Input
               type="text"
               placeholder={item?.palceholder}
+              value={item?.value}
+              onChange={(e) => item?.onChange(e.target.value)}
               className="p-5 rounded-md border-gray-300 bg-white text-sm"
             />
+            {item?.error && (
+              <p className="text-xs text-red-700"> {item?.error}</p>
+            )}
           </div>
         ))}
         <div className="flex flex-col gap-0.5">
           <h1 className="text-xs">Phone Number</h1>
           <PhoneInput
             country="in"
-            value="9155738514"
-            onChange={(phone) => {}}
+            value={signup?.phone}
+            onChange={(phone) => {
+              setSignUp((prev) => ({ ...prev, phone: phone }));
+            }}
             containerClass="w-full"
             inputClass="!w-full !h-10.5 !pl-14 !pr-3 !text-sm !rounded-md !border !border-gray-300 focus:!outline-none focus:!ring-2 focus:!ring-blue-500"
             buttonClass="!border !border-gray-300 !rounded-l-md"
             dropdownClass="!rounded-md"
           />
+          {error?.phone && (
+            <p className="text-xs text-red-700">{error?.phone}</p>
+          )}
         </div>
         <div className="flex flex-col gap-1">
           <h1 className="text-xs">Password</h1>
           <div className="relative">
             <Input
-              type="text"
+              type={signup?.passwordVisible ? "text" : "password"}
               placeholder="Enter your password"
+              value={signup?.password}
+              onChange={(e) =>
+                setSignUp((prev) => ({ ...prev, password: e.target.value }))
+              }
               className="p-5 pr-12 rounded-md border-gray-300 text-sm"
             />
 
-            <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer">
-              visibility
+            <span
+              className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+              onClick={() =>
+                setSignUp((prev) => ({
+                  ...prev,
+                  passwordVisible: !prev?.passwordVisible,
+                }))
+              }
+            >
+              {signup?.passwordVisible ? "visibility" : "visibility_off"}
             </span>
           </div>
+          {error?.password && (
+            <p className="text-xs text-red-700">{error?.password}</p>
+          )}
         </div>
-        <Button className="text-sm">Create Account</Button>
+        <div className="flex flex-col">
+          <Button className="text-sm" onClick={handleSignup} disabled={loading}>
+            {loading ? <Spinner /> : "Create Account"}
+          </Button>
+          {error?.server && (
+            <p className="text-xs text-red-700 flex justify-end">
+              {error.server}
+            </p>
+          )}
+        </div>
         <div className="flex justify-center text-sm">OR SIGNUP WITH</div>
         <div className="flex flex-row justify-between">
           <Button variant="outline" className="w-40">

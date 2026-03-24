@@ -23,12 +23,16 @@ export function middleware(request: NextRequest) {
   const isAuthenticatedRoute = AUTHENTICATED_ROUTE.some((item) =>
     pathname.startsWith(item),
   );
-  const token = request.cookies.get("token");
-  if (token && isAuthRoute) {
+  const token = request.cookies.get("token")?.value;
+  const isValidJWT = token && token.split(".").length === 3;
+  if (isValidJWT && isAuthRoute) {
     return NextResponse.redirect(new URL("/home", request.url));
-  } else if (!token && isAuthenticatedRoute) {
+  } else if (pathname === "/") {
+    if (isValidJWT) return NextResponse.redirect(new URL("/home", request.url));
+    else return NextResponse.redirect(new URL("/auth", request.url));
+  } else if (!isValidJWT && isAuthenticatedRoute)
     return NextResponse.redirect(new URL("/auth", request.url));
-  }
+  
   return NextResponse.next();
 }
 export const config = {
