@@ -27,3 +27,66 @@ export const MobileNavbarItems = [
   { id: 4, icon: "account_balance_wallet", name: "Wallet", route: "/wallet" },
   { id: 5, icon: "person", name: "Profile", route: "/profile" },
 ];
+
+export const dummyAddress = [
+  {
+    id: 1,
+    name: "Sector 50, Gurugram",
+    value: { lat: 28.423, lng: 77.054 },
+  },
+  {
+    id: 2,
+    name: "DLF Phase 3, Gurugram",
+    value: { lat: 28.49, lng: 77.098 },
+  },
+  {
+    id: 3,
+    name: " Sector 14, Gurugram",
+    value: { lat: 28.471, lng: 77.025 },
+  },
+  {
+    id: 4,
+    name: "Sushant Lok 2, Gurugram",
+    value: { lat: 28.411, lng: 77.081 },
+  },
+  {
+    id: 5,
+    name: "  Sector 82, Gurugram",
+    value: { lat: 28.385, lng: 77.965 },
+  },
+];
+
+export const RideVehical = [
+  {
+    id: 1,
+    name: "UberX",
+    capacity: 4,
+    arrivalTime: "12:45",
+    cost: "$12.89",
+    color: "#ff80ed",
+  },
+  {
+    id: 2,
+    name: "Bike",
+    capacity: 1,
+    arrivalTime: "9:45",
+    cost: "$7.89",
+    color: "#065535",
+  },
+  {
+    id: 3,
+    name: "Comfort",
+    capacity: 4,
+    arrivalTime: "12:45",
+    cost: "$14.89",
+    color: "#133337",
+  },
+  {
+    id: 4,
+    name: "UberXL",
+    capacity: 6,
+    arrivalTime: "12:45",
+    cost: "$18.89",
+    color: "#ffc0cb",
+  },
+];

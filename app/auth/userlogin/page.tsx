@@ -22,7 +22,7 @@ const UserLogin = () => {
   });
   const userLogin = async () => {
     setLogin((prev) => ({ ...prev, loading: true }));
-    setError({ state: false, message: "" }); 
+    setError({ state: false, message: "" });
     const payload = { email: login?.email, password: login?.password };
     try {
       const res = await authServices?.userLogin(payload);
