@@ -1,9 +1,14 @@
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { RideVehical } from "@/common/constant";
-export default function RideSelection({ onChange }: { onChange: () => void }) {
+export default function RideSelection({
+  onPayloadAction,
+}: {
+  onPayloadAction: (item: any) => void;
+}) {
   const [ride, setRide] = useState({
-    selcted: 1,
+    selected: 1,
+    ride: { name: "", cost: "" },
   });
   return (
     <div className="absolute bottom-0 left-0 right-0 z-50">
@@ -11,10 +16,16 @@ export default function RideSelection({ onChange }: { onChange: () => void }) {
         <p className="text-xl font-bold">Choose a ride</p>
         {RideVehical.map((item) => (
           <div
-            onClick={() => setRide((prev) => ({ ...prev, selcted: item?.id }))}
+            onClick={() =>
+              setRide((prev) => ({
+                ...prev,
+                selected: item?.id,
+                ride: { name: item?.name, cost: item?.cost },
+              }))
+            }
             key={item?.id}
             className={`p-2 border rounded-sm flex justify-between items-center ${
-              ride?.selcted === item?.id
+              ride?.selected === item?.id
                 ? "border-black border-2"
                 : "border-slate-200"
             }`}
@@ -34,8 +45,8 @@ export default function RideSelection({ onChange }: { onChange: () => void }) {
             <h1 className="text-md text-bold">$18.67</h1>
           </div>
         ))}
-        <Button className="p-5" onClick={onChange}>
-          Confirm {RideVehical[ride?.selcted - 1].name}
+        <Button className="p-5" onClick={() => onPayloadAction({ ride: ride })}>
+          Confirm {RideVehical[ride?.selected - 1].name}
         </Button>
       </div>
     </div>

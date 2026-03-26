@@ -1,8 +1,17 @@
-export interface DataItems {
-  datePicker: boolean;
-  selectedDate: Date | undefined;
-  currentAddress: { lat: number; lng: number };
-  selectedAddress: { lat: number; lng: number };
+export interface AddressItem {
   address: string;
-  step: number;
+  lat: number;
+  lng: number;
+}
+export interface HomePageItems {
+  datePicker?: boolean;
+  source: AddressItem;
+  destination: AddressItem;
+  journeyTime: Date;
+  currentTime: Date;
+  ride?: {
+    name: string;
+    cost: string;
+  };
+  step?: number;
 }

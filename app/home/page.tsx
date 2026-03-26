@@ -3,6 +3,7 @@ import React, { useEffect, useState, Suspense, lazy } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import Direction from "@/components/direction";
+import { HomePageItems } from "@/common/types/hometypes";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 const DestinationSelection = lazy(
@@ -16,7 +17,6 @@ export default function Home() {
     placeId: string;
     description: string;
   } | null>(null);
-  const [step, setStep] = useState<number>(1);
 
   const handlePlaceSelect = (place: {
     placeId: string;
@@ -25,6 +25,16 @@ export default function Home() {
     setDestination(place);
     console.log("Selected Place ID: ", place.placeId);
   };
+
+  const [homePageData, setHomePageData] = useState<HomePageItems>({
+    source: { address: "", lat: 0, lng: 0 },
+    destination: { address: "", lat: 0, lng: 0 },
+    journeyTime: new Date(),
+    currentTime: new Date(),
+    ride: { name: "", cost: "" },
+    step: 1,
+  });
+
   return (
     <>
       <APIProvider apiKey={process.env.NEXT_PUBLIC_MAP_API_KEY || ""}>
@@ -38,7 +48,7 @@ export default function Home() {
         >
           <Direction />
         </Map> */}
-          {step === 1 && (
+          {homePageData?.step === 1 && (
             <Suspense
               fallback={
                 <div className="absolute inset-0 flex items-end justify-center">
@@ -56,39 +66,56 @@ export default function Home() {
                 </div>
               }
             >
-              <DestinationSelection onChange={() => setStep(2)} />
+              <DestinationSelection
+                onPayloadAction={(item: HomePageItems) =>
+                  setHomePageData((prev) => ({
+                    ...prev,
+                    source: item?.source,
+                    destination: item?.destination,
+                    journeyTime: item?.journeyTime,
+                    currentTime: item?.currentTime,
+                    step: 2,
+                  }))
+                }
+              />
             </Suspense>
           )}
 
-          {step === 2 && (
+          {homePageData?.step === 2 && (
             <Suspense
               fallback={
                 <div className="absolute inset-0 flex items-end justify-center">
-                  <div className="w-full max-w-md flex flex-col gap-7 bg-slate-200 p-4 rounded-md shadow">
+                  <div className="w-full max-w-md flex flex-col gap-7 bg-gray-200 p-4 rounded-md shadow">
                     <div className="flex flex-col gap-3">
-                      <Skeleton className="h-4 w-20" />
-                      <Skeleton className="h-8 w-full" />
+                      <Skeleton className="h-6 w-40" />
+                      <Skeleton className="h-16 w-full" />
+                      <Skeleton className="h-16 w-full" />
                     </div>
-                    <div className="flex flex-col gap-3">
-                      <Skeleton className="h-4 w-24" />
-                      <Skeleton className="h-8 w-full" />
-                    </div>
-                    <Skeleton className="h-8 w-24" />
+
+                    <Skeleton className="h-12 w-full rounded-2xl" />
                   </div>
                 </div>
               }
             >
-              <RideSelection onChange={() => setStep(3)} />
+              <RideSelection
+                onPayloadAction={(item) =>
+                  setHomePageData((prev) => ({
+                    ...prev,
+                    step: 3,
+                    ride: item?.ride,
+                  }))
+                }
+              />
             </Suspense>
           )}
-          {step === 3 && (
+          {homePageData?.step === 3 && (
             <div className="absolute bottom-0 left-0 right-0 z-50 bg-white ">
               <div className="flex flex-col gap-3 p-4 shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
                 <h1 className="text-xl font-bold text-center">
                   Requesting your Ride...
                 </h1>
                 <h3 className="text-xs text-slate-600 text-center">
-                  Connecting to your nearest Captain
+                  Connecting to your nearest Captain.
                 </h3>
                 <Progress value={20} />
                 <div
@@ -101,27 +128,39 @@ export default function Home() {
                       <div className="w-0.5 h-8 bg-gray-300 my-1"></div>
                       <div className="w-2.5 h-2.5 bg-black"></div>
                     </div>
-                    <div className="flex-grow">
+                    <div className="grow">
                       <div className="mb-4">
                         <p className="text-xs text-gray-400  tracking-wider font-bold ">
                           Pickup
                         </p>
-                        <p className="text-gray-800 font-medium truncate">
-                          123 Silicon Valley Way, Palo Alto
+                        <p className="text-gray-800 font-medium wrap-break-word">
+                          {homePageData?.source?.address}
                         </p>
                       </div>
                       <div>
                         <p className="text-xs text-gray-400 tracking-wider font-bold">
                           Drop-off
                         </p>
-                        <p className="text-gray-800 font-medium truncate">
-                          San Francisco International Airport
+                        <p className="text-gray-800 font-medium wrap-break-word">
+                          {homePageData?.destination?.address}
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <Button className="bg-gray-100 p-6 text-black text-lg ">
+                <Button
+                  className="bg-gray-100 p-6 text-black text-lg"
+                  onClick={() =>
+                    setHomePageData({
+                      source: { address: "", lat: 0, lng: 0 },
+                      destination: { address: "", lat: 0, lng: 0 },
+                      journeyTime: new Date(),
+                      currentTime: new Date(),
+                      ride: { name: "", cost: "" },
+                      step: 1,
+                    })
+                  }
+                >
                   Cancle Ride
                 </Button>
               </div>

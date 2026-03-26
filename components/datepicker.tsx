@@ -59,7 +59,7 @@ const DatePicker = ({
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="p-0 w-[90%] max-w-md z-50 flex flex-col gap-1">
-        <DialogTitle className="p-3 font-semibold text-md">
+        <DialogTitle className="p-3 font-semibold text-lg">
           Select Date & Time
         </DialogTitle>
 

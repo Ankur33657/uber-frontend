@@ -31,28 +31,23 @@ export const MobileNavbarItems = [
 export const dummyAddress = [
   {
     id: 1,
-    name: "Sector 50, Gurugram",
-    value: { lat: 28.423, lng: 77.054 },
+    selected: { address: "Sector 50, Gurugram", lat: 28.423, lng: 77.054 },
   },
   {
     id: 2,
-    name: "DLF Phase 3, Gurugram",
-    value: { lat: 28.49, lng: 77.098 },
+    selected: { address: "DLF Phase 3, Gurugram", lat: 28.49, lng: 77.098 },
   },
   {
     id: 3,
-    name: " Sector 14, Gurugram",
-    value: { lat: 28.471, lng: 77.025 },
+    selected: { address: "Sector 14, Gurugram", lat: 28.471, lng: 77.025 },
   },
   {
     id: 4,
-    name: "Sushant Lok 2, Gurugram",
-    value: { lat: 28.411, lng: 77.081 },
+    selected: { address: "Sushant Lok 2, Gurugram", lat: 28.411, lng: 77.081 },
   },
   {
     id: 5,
-    name: "  Sector 82, Gurugram",
-    value: { lat: 28.385, lng: 77.965 },
+    selected: { address: "Sector 82, Gurugram", lat: 28.385, lng: 77.965 },
   },
 ];
 
@@ -90,3 +85,11 @@ export const RideVehical = [
     color: "#ffc0cb",
   },
 ];
+
+export enum QueryKey {
+  ACTIVITY = "activity",
+}
+
+export enum StaleTime {
+  STALETIME = 10 * 60 * 1000,
+}

@@ -9,36 +9,42 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DatePicker from "../datepicker";
 import { Input } from "../ui/input";
-import { Clock2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { DataItems } from "@/common/types/hometypes";
+import { HomePageItems } from "@/common/types/hometypes";
 export default function DestinationSelection({
-  onChange,
+  onPayloadAction,
 }: {
-  onChange: () => void;
+  onPayloadAction: (item: HomePageItems) => void;
 }) {
-  const [data, setData] = useState<DataItems>({
+  const [data, setData] = useState<HomePageItems>({
     datePicker: false,
-    selectedDate: new Date(),
-    currentAddress: { lat: 28.429767, lng: 77.059526 },
-    selectedAddress: { lat: 0, lng: 0 },
-    address: "",
-    step: 1,
+    journeyTime: new Date(),
+    currentTime: new Date(),
+    source: {
+      address: "unnamed road, Sector 46, Gurgaon - 101301, Haryana, India",
+      lat: 28.429767,
+      lng: 77.059526,
+    },
+    destination: { address: "", lat: 0, lng: 0 },
   });
 
   const handleSubmit = (payload: {
     current: Date | undefined;
     selected: Date | undefined;
   }) => {
-    setData((prev) => ({ ...prev, selectedDate: payload?.selected }));
+    setData((prev) => ({
+      ...prev,
+      journeyTime: payload?.selected || new Date(),
+      currentTime: payload?.current || new Date(),
+    }));
   };
   const isToday =
-    data?.selectedDate?.toDateString() === new Date().toDateString();
+    data?.journeyTime?.toDateString() === new Date().toDateString();
   return (
     <>
-      <div className="absolute bottom-0 left-0 right-0 z-50 p-3">
-        <div className="bg-white rounded-sm shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-3 max-w-md mx-auto">
+      <div className="absolute bottom-0 left-0 right-0 z-50 p-2">
+        <div className="bg-white rounded-sm shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-2 max-w-md mx-auto">
           <div className="flex justify-between items-center p-2 bg-slate-100 rounded-md">
             <div className="flex flex-row gap-2 items-center w-full">
               <span className="material-symbols-outlined text-slate-500">
@@ -49,7 +55,9 @@ export default function DestinationSelection({
                   <Input
                     type="text"
                     placeholder={
-                      data?.address !== "" ? data?.address : "Where to ?"
+                      data?.destination?.address !== ""
+                        ? data?.destination?.address
+                        : "Where to ?"
                     }
                     className="border-none outline-none focus:ring-0! shadow-none text-lg"
                   />
@@ -57,52 +65,55 @@ export default function DestinationSelection({
 
                 <DropdownMenuContent
                   align="center"
-                  className="w-[80vw] max-w-none text-center"
+                  className="w-auto max-w-none text-center m-auto"
                 >
                   <DropdownMenuGroup>
                     {dummyAddress.map((item) => (
                       <DropdownMenuItem
+                        className="w-full flex justify-center items-center"
                         key={item?.id}
                         onClick={() => {
                           setData((prev) => ({
                             ...prev,
-                            selectedAddress: item?.value,
-                            address: item?.name,
+                            destination: item?.selected,
                           }));
-                          onChange();
+                          onPayloadAction({
+                            source: data?.source,
+                            destination: item?.selected,
+                            journeyTime: data?.journeyTime,
+                            currentTime: data?.currentTime,
+                          });
                         }}
                       >
-                        {item?.name}
+                        {item?.selected.address}
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="flex flex-row gap-0.5 items-center shrink-0">
-              <Clock2Icon className="w-4 h-4" />
-              <Button
-                className="flex gap-1"
-                variant="ghost"
-                onClick={() =>
-                  setData((prev: any) => ({
-                    ...prev,
-                    datePicker: !prev?.datePicker,
-                  }))
-                }
-              >
-                <p className="text-sm">
-                  {isToday ? "Now" : data?.selectedDate?.toDateString()}
-                </p>
-                <span className="material-symbols-outlined">
-                  keyboard_arrow_down
-                </span>
-              </Button>
-            </div>
+
+            <Button
+              className="flex gap-1"
+              variant="ghost"
+              onClick={() =>
+                setData((prev: any) => ({
+                  ...prev,
+                  datePicker: !prev?.datePicker,
+                }))
+              }
+            >
+              <p className="text-sm">
+                {isToday ? "Now" : data?.journeyTime?.toDateString()}
+              </p>
+              <span className="material-symbols-outlined">
+                keyboard_arrow_down
+              </span>
+            </Button>
           </div>
         </div>
-
-        <div className="p-3 mt-3 bg-white rounded-sm flex flex-col gap-2 divide-y shadow-lg">
+        {/*Future Plan to be implemented*/}
+        {/*<div className="p-3 mt-3 bg-white rounded-sm flex flex-col gap-2 divide-y shadow-lg">
           <div className="flex flex-row gap-2 p-2">
             <div className="p-2 w-fit rounded-full bg-blue-300 flex items-center justify-center">
               <span className="material-symbols-outlined text-blue-600">
@@ -126,10 +137,10 @@ export default function DestinationSelection({
               <p className="text-xs text-slate-400">Add Work address</p>
             </div>
           </div>
-        </div>
+        </div>*/}
       </div>
       <DatePicker
-        open={data?.datePicker}
+        open={data?.datePicker || false}
         onClose={() =>
           setData((prev) => ({
             ...prev,
