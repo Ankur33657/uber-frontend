@@ -88,6 +88,7 @@ export const RideVehical = [
 
 export enum QueryKey {
   ACTIVITY = "activity",
+  COMMUNITY_POST = "community-post",
 }
 
 export enum StaleTime {

@@ -1,8 +1,11 @@
+"use client";
 import Image from "next/image";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Feed from "@/components/community/feed";
 import News from "@/components/community/news";
+
 import Safety from "@/components/community/safety";
+import { Button } from "@/components/ui/button";
 const Community = () => {
   return (
     <div className="p-4 flex flex-col gap-4">
