@@ -32,5 +32,35 @@ const updatePost = async (payload: any) => {
     throw errorMessage;
   }
 };
-const CommunityService = { getPost, createPost, updatePost };
+
+const deletePost = async (payload: any) => {
+  try {
+    const res = await apiInstance.delete("/community/deletepost", {
+      data: payload,
+    });
+    return res;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message;
+    console.log(errorMessage);
+    throw errorMessage;
+  }
+};
+
+const getStories = async () => {
+  try {
+    const res = await apiInstance.get("/story/getstory");
+    return res?.data;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message;
+    console.log(errorMessage);
+    throw errorMessage;
+  }
+};
+const CommunityService = {
+  getPost,
+  createPost,
+  updatePost,
+  deletePost,
+  getStories,
+};
 export default CommunityService;

@@ -12,3 +12,14 @@ export const useCommunityPostQuery = () => {
     staleTime: StaleTime?.STALETIME,
   });
 };
+
+export const useGetAllStories = () => {
+  return useQuery({
+    queryKey: [QueryKey?.COMMUNITY_STORIES],
+    queryFn: async () => {
+      const res = await CommunityService?.getStories();
+      return res;
+    },
+    staleTime: StaleTime?.STALETIME,
+  });
+};

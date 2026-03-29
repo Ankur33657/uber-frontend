@@ -10,7 +10,6 @@ const PostCard = dynamic(() => import("@/components/cards/postCard"), {
 });
 const Feed = () => {
   const { data: communityPost, isLoading } = useCommunityPostQuery();
-  console.log(communityPost, "Coo");
   return (
     <div className="flex flex-col gap-4">
       <CreatePost />
