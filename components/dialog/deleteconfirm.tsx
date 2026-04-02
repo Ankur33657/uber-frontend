@@ -9,6 +9,7 @@ type PropsItems = {
   onSubmit?: () => void;
   Header?: string;
   descriptions?: string;
+  confirmBtntext?: string;
 };
 
 const DeleteConfirm = ({
@@ -17,6 +18,7 @@ const DeleteConfirm = ({
   onSubmit = () => {},
   Header = "Delete Confirm",
   descriptions = "Are you sure you want to delete? This action cannot be reversed.",
+  confirmBtntext = "Delete",
 }: PropsItems) => {
   const [loading, setLoading] = useState(false);
   return (
@@ -37,7 +39,7 @@ const DeleteConfirm = ({
               onSubmit();
             }}
           >
-            {loading ? <Spinner /> : "Delete"}
+            {loading ? <Spinner /> : confirmBtntext}
           </Button>
         </div>
       </DialogContent>

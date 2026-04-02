@@ -1,5 +1,6 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import Image from "next/image";
 import { useGetLastMonthsNews } from "@/components/community/service";
 import { NewsArticle } from "@/common/types/communitytypes";
@@ -12,7 +13,7 @@ const NewsDetails = () => {
   const id = searchParams?.get("id");
   const trending = searchParams?.get("trending");
   const { data: News, isLoading } = useGetLastMonthsNews();
-  console.log(News);
+  const [altImage, setAltImage] = useState(false);
   const newsDetails = (() => {
     if (!id || !News) return null;
     const isTrending = trending === "true";
@@ -27,12 +28,13 @@ const NewsDetails = () => {
   return (
     <div>
       <Image
-        src={newsDetails?.image ?? ""}
+        src={altImage ? "/skelton.jpg" : (newsDetails?.image ?? "/skelton.jpg")}
         alt="news"
         width={100}
         height={100}
         className="w-full"
         unoptimized
+        onError={() => setAltImage(true)}
       />
 
       <span
@@ -47,14 +49,17 @@ const NewsDetails = () => {
         <div className="flex flex-row gap-1">
           <h2 className="text-md font-bold underline">Author:</h2>[
           {newsDetails?.authors.length === 0 && <h2>Unknown</h2>}
-          {newsDetails?.authors.map((item, idx) => (
-            <h2 key={idx}>
-              {item?.name}
-              {idx !== newsDetails?.authors?.length && (
-                <h1 className="font-bold">,</h1>
-              )}
-            </h2>
-          ))}
+          <div className="flex flex-wrap gap-1 items-center">
+            {newsDetails?.authors.map((item, idx) => (
+              <div key={idx} className="flex items-center">
+                <h2 className="text-sm font-medium">{item?.name}</h2>
+
+                {idx < newsDetails.authors.length - 1 && (
+                  <span className="mr-1 font-bold">,</span>
+                )}
+              </div>
+            ))}
+          </div>
           ]
         </div>
         <p className="text-xs font-bold text-gray-500">

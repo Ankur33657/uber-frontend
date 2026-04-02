@@ -20,7 +20,7 @@ const Safety = () => {
       {[1, 2, 3].map((item, idx) => (
         <div
           key={idx}
-          className="flex flex-col gap-2 bg-white rounded-lg shadow-lg py-6 px-4"
+          className="flex flex-col gap-2 bg-white rounded-lg shadow-xs py-6 px-4"
         >
           <h1 className="text-lg font-bold">Verify Your Ride</h1>
           <p className="text-xs text-slate-600">
@@ -32,7 +32,7 @@ const Safety = () => {
           </h1>
         </div>
       ))}
-      <div className="bg-white px-4 py-6 rounded-md flex flex-col gap-3 shadow-lg">
+      <div className="bg-white px-4 py-6 rounded-md flex flex-col gap-3 shadow-xs">
         <h1 className="text-lg font-bold "> Community Guidelines</h1>
         {[1, 2, 3].map((item, idx) => (
           <div key={idx} className="flex flex-row gap-2 items-center">

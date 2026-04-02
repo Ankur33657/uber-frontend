@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
+import LogOutUser from "@/components/logoutButton";
 const Profile = () => {
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -43,7 +43,7 @@ const Profile = () => {
       {[1, 2, 3].map((item, idx) => (
         <div
           key={idx}
-          className="flex flex-col gap-2 bg-white shadow-lg rounded-md p-4"
+          className="flex flex-col gap-2 bg-white shadow-xs rounded-md p-4"
         >
           <div className="flex flex-row gap-2 items-center">
             <span className="material-symbols-outlined text-primary">
@@ -60,7 +60,7 @@ const Profile = () => {
       {[1, 2, 3].map((item, idx) => (
         <div
           key={idx}
-          className="bg-white shadow-lg rounded-md px-4 py-6 flex flex-row justify-between items-center"
+          className="bg-white shadow-xs rounded-md px-4 py-6 flex flex-row justify-between items-center"
         >
           <div className="flex flex-row gap-2 items-center">
             <span className="material-symbols-outlined bg-slate-300 p-2 rounded-md">
@@ -72,23 +72,20 @@ const Profile = () => {
         </div>
       ))}
       <div className="flex flex-row justify-between">
-        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-lg w-40">
+        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-40">
           <span className="material-symbols-outlined text-primary">
             help_center
           </span>
           <h1 className="text-sm font-bold ">Help Center</h1>
         </div>
-        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-lg w-40">
+        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-40">
           <span className="material-symbols-outlined text-primary">
             privacy_tip
           </span>
           <h1 className="text-sm font-bold ">Privacy Policy</h1>
         </div>
       </div>
-      <Button className="p-6 rounded-3xl flex flex-row items-center">
-        <span className="material-symbols-outlined">logout</span>
-        <h1>Log Out</h1>
-      </Button>
+      <LogOutUser />
     </div>
   );
 };

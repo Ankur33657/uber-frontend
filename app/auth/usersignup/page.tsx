@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
+import { createClient } from "@supabase/supabase-js";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Link from "next/link";
@@ -11,8 +12,10 @@ import authServices from "@/services/auth.services";
 import { signupItems, payloadItems } from "@/common/types/signuptypes";
 import { useRouter } from "next/navigation";
 import Utils from "@/common/utils";
+import { supabase } from "@/lib/supabase";
 const UserSignup = () => {
   const [loading, setLoading] = useState(false);
+  const [googleLoader, setGoogleLoader] = useState(false);
   const route = useRouter();
   const [signup, setSignUp] = useState<payloadItems>({
     name: "",
@@ -49,6 +52,16 @@ const UserSignup = () => {
     },
   ];
 
+  const signInWithSocial = async (provider: "google" | "apple") => {
+    setGoogleLoader(true);
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: provider,
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/callback`,
+      },
+    });
+    if (error) console.error("Error logging in:", error.message);
+  };
   const handleSignup = async () => {
     setLoading(true);
     setError((prev) => ({
@@ -91,7 +104,7 @@ const UserSignup = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-1">
       <div className="relative h-60 w-full overflow-hidden">
         <Image
           className="w-full h-full object-cover"
@@ -174,7 +187,11 @@ const UserSignup = () => {
           )}
         </div>
         <div className="flex flex-col">
-          <Button className="text-sm" onClick={handleSignup} disabled={loading}>
+          <Button
+            className="text-sm p-5"
+            onClick={handleSignup}
+            disabled={loading}
+          >
             {loading ? <Spinner /> : "Create Account"}
           </Button>
           {error?.server && (
@@ -183,30 +200,41 @@ const UserSignup = () => {
             </p>
           )}
         </div>
-        <div className="flex justify-center text-sm">OR SIGNUP WITH</div>
-        <div className="flex flex-row justify-between">
-          <Button variant="outline" className="w-40">
-            Google
-          </Button>
-          <Button variant="outline" className="w-40">
-            Apple
-          </Button>
+        <div className="flex justify-center text-sm text-slate-500">
+          OR SIGNUP WITH
         </div>
-        <div className="flex justify-center gap-1 text-xs items-center">
-          <span>Already have an account?</span>
-          <Link href="/auth/userlogin" className="underline text-primary">
-            Login
-          </Link>
-        </div>
-        <div className="text-xs text-slate-400 text-center">
-          By signing up, you agree to our{" "}
-          <Link className="underline text-primary" href="/terms&service">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link className="underline text-primary" href="/privacy">
-            Privacy Policy
-          </Link>
+        <Button
+          variant="outline"
+          className="p-5 bg-slate-300"
+          onClick={() => signInWithSocial("google")}
+          disabled={googleLoader}
+        >
+          {googleLoader ? (
+            <Spinner />
+          ) : (
+            <div className="flex flex-row gap-1 items-center justify-center w-full">
+              <Image src={"/google.png"} alt="google" width={28} height={28} />
+              <h2 className="text-[16px] font-semibold">Google</h2>
+            </div>
+          )}
+        </Button>
+        <div className="flex flex-col gap-0.5">
+          <div className="flex justify-center gap-0.5 text-[14px] items-center">
+            <span className="text-slate-500">Already have an account?</span>
+            <Link href="/auth/userlogin" className="underline text-red-500">
+              Login
+            </Link>
+          </div>
+          <div className="text-xs text-slate-400 text-center">
+            By signing up, you agree to our{" "}
+            <Link className="underline text-red-500" href="/terms&service">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link className="underline text-red-500" href="/privacy">
+              Privacy Policy
+            </Link>
+          </div>
         </div>
       </div>
     </div>

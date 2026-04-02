@@ -2,9 +2,9 @@ import { useGetAllStories } from "./service";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
-
+import { StorySkelton } from "./skelton";
 const Stories = () => {
-  const { data: Stories } = useGetAllStories();
+  const { data: Stories, isFetching } = useGetAllStories();
   const router = useRouter();
 
   return (
@@ -18,7 +18,7 @@ const Stories = () => {
         </span>
         <p className="text-xs text-gray-600 font-medium">Add</p>
       </div>
-
+      {isFetching && [1, 2, 3, 4]?.map((_, idx) => <StorySkelton key={idx} />)}
       {Stories?.data?.map((item: any) => (
         <div
           onClick={() => router.push(`/viewstory?id=${item?._id}`)}

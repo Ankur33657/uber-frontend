@@ -8,6 +8,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { LoginPropsItem, LoginError } from "@/common/types/logintypes";
 import authServices from "@/services/auth.services";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 const UserLogin = () => {
   const route = useRouter();
   const [login, setLogin] = useState<LoginPropsItem>({
@@ -20,6 +21,19 @@ const UserLogin = () => {
     state: false,
     message: "",
   });
+  const [googleLoader, setGoogleLoader] = useState(false);
+
+  const signInWithSocial = async (provider: "google" | "apple") => {
+    setGoogleLoader(true);
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: provider,
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/callback?login=true`,
+      },
+    });
+
+    if (error) console.error("Error logging in:", error.message);
+  };
   const userLogin = async () => {
     setLogin((prev) => ({ ...prev, loading: true }));
     setError({ state: false, message: "" });
@@ -98,35 +112,38 @@ const UserLogin = () => {
               {login?.isVisible ? "visibility" : "visibility_off"}
             </span>
           </div>
-          <h1 className="flex justify-end text-xs text-amber-500">
+          <h1 className="flex justify-end text-xs text-red-600 font-bold">
             Forgot password ?
           </h1>
         </div>
         <Button
-          className="text-sm"
+          className="text-sm p-5"
           onClick={userLogin}
           disabled={login?.loading}
         >
           {login?.loading ? <Spinner /> : "Log In"}
         </Button>
-        <div className="flex justify-center text-slate-400 text-sm">
+        <div className="flex justify-center text-slate-600 text-sm">
           OR CONTINUE WITH
         </div>
-        <Button variant="outline" disabled={true}>
-          <div className="flex flex-row gap-2 items-center">
-            <span className="material-symbols-outlined">g_translate</span>
-            <h2>Google</h2>
-          </div>
+        <Button
+          variant="outline"
+          className="p-5 bg-slate-300"
+          onClick={() => signInWithSocial("google")}
+          disabled={googleLoader}
+        >
+          {googleLoader ? (
+            <Spinner />
+          ) : (
+            <div className="flex flex-row gap-1 items-center justify-center w-full">
+              <Image src={"/google.png"} alt="google" width={28} height={28} />
+              <h2 className="text-[16px] font-semibold">Google</h2>
+            </div>
+          )}
         </Button>
-        <Button disabled={true} variant="outline">
-          Apple Id
-        </Button>
-        <Button disabled={true} variant="outline">
-          FaceBook
-        </Button>
-        <div className="flex justify-center text-xs">
+        <div className="flex justify-center text-[14px]">
           Don&apos;t have an account?
-          <Link href="/auth/usersignup" className="underline text-primary">
+          <Link href="/auth/usersignup" className="underline text-red-400">
             Sign Up
           </Link>
         </div>

@@ -10,6 +10,7 @@ export const AUTH_ROUTE = [
   "/auth/captainsignup",
   "/terms&service",
   "/privacy",
+  "/auth/callback",
 ];
 const AUTHENTICATED_ROUTE = [
   "/activity",

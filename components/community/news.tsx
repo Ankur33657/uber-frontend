@@ -4,9 +4,19 @@ import NewsCard from "../cards/newsCard";
 import { useGetLastMonthsNews } from "./service";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
+import { NewsSkelton } from "./skelton";
+import PaginatedComponent from "@/common/paginatedComponent";
+import { useState, useEffect } from "react";
 const News = () => {
-  const { data: News } = useGetLastMonthsNews();
+  const { data: News, isLoading } = useGetLastMonthsNews();
   const router = useRouter();
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [page]);
   return (
     <div className="flex flex-col gap-4 ">
       <div className="flex flex-col gap-2">
@@ -14,10 +24,13 @@ const News = () => {
           <h1 className="text-lg font-bold text-primary">Trending</h1>
         </div>
         <div className="flex flex-row gap-4 overflow-y-auto">
+          {isLoading && <NewsSkelton />}
           {News?.trending?.map((item) => (
             <div
               onClick={() =>
-                router.push(`newsdetails?id=${item?.uri}&trending=true`)
+                router.push(
+                  `newsdetails?id=${item?.uri}&trending=true&tab=news`,
+                )
               }
               key={item?.uri}
               className="relative shrink-0 w-80 h-96 rounded-xl overflow-hidden shadow-[0_8px_24px_rgba(44,47,48,0.06)] group"
@@ -48,7 +61,19 @@ const News = () => {
         </div>
       </div>
       <h1 className="text-lg font-bold text-primary">Latest News</h1>
-      <NewsCard />
+      {News?.latest?.slice((page - 1) * 5, page * 5)?.map((item) => (
+        <NewsCard key={item?.uri} data={item} />
+      ))}
+
+      <PaginatedComponent
+        page={page}
+        setPage={(item) => {
+          if (item) setPage((prev) => prev - 1);
+          else {
+            setPage((prev) => prev + 1);
+          }
+        }}
+      />
     </div>
   );
 };
