@@ -90,8 +90,15 @@ export enum QueryKey {
   ACTIVITY = "activity",
   COMMUNITY_POST = "community-post",
   COMMUNITY_STORIES = "stories",
+  ALL_NEWS = "news",
 }
 
 export enum StaleTime {
   STALETIME = 10 * 60 * 1000,
+  NEWS_EXPIRE = 30 * 24 * 60 * 60 * 1000,
+}
+
+export enum FileSize {
+  VIDEO = 20 * 1024 * 1024,
+  IMAGE = 4 * 1024 * 1024,
 }

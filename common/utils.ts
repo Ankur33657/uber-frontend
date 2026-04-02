@@ -32,6 +32,18 @@ export const UploadButton = generateUploadButton({
   url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/uploadthing`,
 });
 
-const Utils = { UsersignUpValidation, UploadButton, useUploadThing, uploadFiles };
-export default Utils;
+export const OpenUrl = (url: string) => {
+  if (!url) return;
+  const hasProtocol = /^https?:\/\//i.test(url);
+  const finalUrl = hasProtocol ? url : `https://${url}`;
 
+  window.open(finalUrl, "_blank", "noopener,noreferrer");
+};
+const Utils = {
+  UsersignUpValidation,
+  UploadButton,
+  useUploadThing,
+  uploadFiles,
+  OpenUrl,
+};
+export default Utils;

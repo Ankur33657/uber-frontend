@@ -19,6 +19,8 @@ const AUTHENTICATED_ROUTE = [
   "/wallet",
 ];
 
+export const AUTHENTICATED_WITHOUT_NAVBAR = ["/createstory", "viewstory"];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAuthRoute = AUTH_ROUTE.some((item) => pathname === item);
@@ -34,7 +36,7 @@ export function middleware(request: NextRequest) {
     else return NextResponse.redirect(new URL("/auth", request.url));
   } else if (!isValidJWT && isAuthenticatedRoute)
     return NextResponse.redirect(new URL("/auth", request.url));
-  
+
   return NextResponse.next();
 }
 export const config = {

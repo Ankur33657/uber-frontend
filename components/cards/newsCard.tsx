@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useGetLastMonthsNews } from "../community/service";
 const NewsCard = () => {
   return (
     <div className="flex flex-col gap-3 bg-white shadow-lg rounded-md">
