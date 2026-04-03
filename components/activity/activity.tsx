@@ -106,7 +106,7 @@ export default function ActivityComponent() {
         </div>
       ))}
 
-      {!isLoading && Activity?.data?.previousRide.length === 0 && (
+      {!isLoading && (Activity?.data?.previousRide?.length ?? 0) === 0 && (
         <div className="flex justify-center items-center h-[60vh] w-full text-slate-600">
           No Previous Ride yet!!!
         </div>

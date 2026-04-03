@@ -51,41 +51,6 @@ export const dummyAddress = [
   },
 ];
 
-export const RideVehical = [
-  {
-    id: 1,
-    name: "UberX",
-    capacity: 4,
-    arrivalTime: "12:45",
-    cost: "$12.89",
-    color: "#ff80ed",
-  },
-  {
-    id: 2,
-    name: "Bike",
-    capacity: 1,
-    arrivalTime: "9:45",
-    cost: "$7.89",
-    color: "#065535",
-  },
-  {
-    id: 3,
-    name: "Comfort",
-    capacity: 4,
-    arrivalTime: "12:45",
-    cost: "$14.89",
-    color: "#133337",
-  },
-  {
-    id: 4,
-    name: "UberXL",
-    capacity: 6,
-    arrivalTime: "12:45",
-    cost: "$18.89",
-    color: "#ffc0cb",
-  },
-];
-
 export enum QueryKey {
   ACTIVITY = "activity",
   COMMUNITY_POST = "community-post",
@@ -101,4 +66,11 @@ export enum StaleTime {
 export enum FileSize {
   VIDEO = 20 * 1024 * 1024,
   IMAGE = 4 * 1024 * 1024,
+}
+
+export enum VehicleImageMap {
+  BIKE = "/bike.webp",
+  AUTO = "/auto.jpeg",
+  CARXL = "/carXL.jpeg",
+  CARXXL = "/carXXL.jpeg",
 }
