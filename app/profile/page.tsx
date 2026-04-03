@@ -1,9 +1,78 @@
+"use client";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
+import LogOutUser from "@/components/logoutButton";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { User } from "@/common/types/logintypes";
 import { Button } from "@/components/ui/button";
 const Profile = () => {
+  const user: User = JSON.parse(localStorage?.getItem("user") ?? "");
+  const router = useRouter();
+  const personalItems = [
+    {
+      id: 1,
+      icon: "mail",
+      key: "Email Address",
+      value: user?.email,
+    },
+    {
+      id: 2,
+      icon: "phone_callback",
+      key: "Phone",
+      value: "",
+    },
+    {
+      id: 3,
+      icon: "location_on",
+      key: "Primary Residence",
+      value: user?.savedPlaces ?? "",
+    },
+  ];
+
+  const toolsItems = [
+    {
+      id: 1,
+      icon: "bedtime",
+      name: "Dark Atmosphere",
+      component: () => {
+        return (
+          <Tooltip>
+            <TooltipTrigger>
+              <Switch disabled={true} />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Feature comming soon..</p>
+            </TooltipContent>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      id: 2,
+      icon: "notifications_active",
+      name: "Smart Notification",
+      component: () => {
+        return <Switch />;
+      },
+    },
+    {
+      id: 3,
+      icon: "bring_your_own_ip",
+      name: "System Language",
+      component: () => {
+        return <div className="text-xs">English (US)</div>;
+      },
+    },
+  ];
+
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-3 p-4">
       <section className="relative overflow-visible">
         <div className="flex flex-col md:flex-row items-end md:items-center gap-6">
           <div className="relative">
@@ -17,19 +86,26 @@ const Profile = () => {
                 unoptimized
               />
             </div>
-            <div className="absolute -bottom-2 -right-2 bg-primary px-3 py-1 rounded-lg text-on-primary font-headline font-bold flex items-center gap-1 shadow-lg">
-              <span>4.9</span>
-              {/*<span className="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>*/}
+            <div className="absolute -bottom-2 -right-2 bg-primary px-3 py-1 rounded-lg text-on-primary font-headline font-bold flex items-center gap-1">
+              <span className="text-xl">{user?.rating}</span>
+              <span className="material-symbols-outlined">star</span>
             </div>
           </div>
           <div className="flex-1 text-right md:text-left">
-            <p className="text-primary font-headline font-bold uppercase tracking-widest text-xs mb-1">
-              Elite Member
-            </p>
+            {user?.isPremium ? (
+              <p className="text-primary font-headline font-bold uppercase tracking-widest text-xs mb-1">
+                Elite Member
+              </p>
+            ) : (
+              <Button className="p-4" variant={"outline"}>
+                Go for premium
+              </Button>
+            )}
+
             <h2 className="text-4xl font-headline font-extrabold text-on-surface leading-tight">
-              Alexander
+              {user?.name}
               <br />
-              Rousseau
+              {user?.role.toUpperCase()}
             </h2>
           </div>
         </div>
@@ -40,55 +116,58 @@ const Profile = () => {
           Edit Details
         </h2>
       </div>
-      {[1, 2, 3].map((item, idx) => (
-        <div
-          key={idx}
-          className="flex flex-col gap-2 bg-white shadow-lg rounded-md p-4"
-        >
-          <div className="flex flex-row gap-2 items-center">
-            <span className="material-symbols-outlined text-primary">
-              stacked_email
-            </span>
-            <h1 className="text-xs text-pretty font-bold text-primary uppercase">
-              Email Address
-            </h1>
+      {personalItems.map((item) => {
+        if (!item?.value || item?.value?.length === 0) return null;
+        return (
+          <div
+            key={item?.id}
+            className="flex flex-col gap-2 bg-white shadow-xs rounded-md p-4"
+          >
+            <div className="flex flex-row gap-2 items-center">
+              <span className="material-symbols-outlined text-primary">
+                {item?.icon}
+              </span>
+              <h1 className="text-xs text-pretty font-bold text-primary uppercase">
+                {item?.key}
+              </h1>
+            </div>
+            <h1 className="text-xs font-bold">{item?.value}</h1>
           </div>
-          <h1 className="text-xs font-bold">ankursingh3362869@gmail.com</h1>
-        </div>
-      ))}
+        );
+      })}
       <h1 className="text-xl font-bold">Experience Tuning</h1>
-      {[1, 2, 3].map((item, idx) => (
+      {toolsItems.map((item) => (
         <div
-          key={idx}
-          className="bg-white shadow-lg rounded-md px-4 py-6 flex flex-row justify-between items-center"
+          key={item?.id}
+          className="bg-white shadow-md rounded-md px-4 py-6 flex flex-row justify-between items-center"
         >
           <div className="flex flex-row gap-2 items-center">
             <span className="material-symbols-outlined bg-slate-300 p-2 rounded-md">
-              brightness_2
+              {item?.icon}
             </span>
-            <h1 className="text-xs font-bold">Dark Atmosphere</h1>
+            <h1 className="text-xs font-bold">{item?.name}</h1>
           </div>
-          <Switch />
+          {item?.component()}
         </div>
       ))}
       <div className="flex flex-row justify-between">
-        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-lg w-40">
+        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-40">
           <span className="material-symbols-outlined text-primary">
             help_center
           </span>
           <h1 className="text-sm font-bold ">Help Center</h1>
         </div>
-        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-lg w-40">
+        <div
+          className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-40"
+          onClick={() => router.push("/privacy")}
+        >
           <span className="material-symbols-outlined text-primary">
             privacy_tip
           </span>
           <h1 className="text-sm font-bold ">Privacy Policy</h1>
         </div>
       </div>
-      <Button className="p-6 rounded-3xl flex flex-row items-center">
-        <span className="material-symbols-outlined">logout</span>
-        <h1>Log Out</h1>
-      </Button>
+      <LogOutUser />
     </div>
   );
 };

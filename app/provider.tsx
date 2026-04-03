@@ -1,8 +1,10 @@
 "use client";
 
 import { ReactNode, useState } from "react";
+import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./authProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 const CACHE_STALE_TIME = 10 * 60 * 1000;
 export default function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
@@ -19,7 +21,10 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <div>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+        </AuthProvider>
+        <Toaster />
       </QueryClientProvider>
     </div>
   );

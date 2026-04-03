@@ -1,6 +1,6 @@
 const HelpCard = () => {
   return (
-    <div className="flex flex-col rounded-md shadow-lg p-4 bg-white gap-3">
+    <div className="flex flex-col rounded-md shadow-xs p-4 bg-white gap-3">
       <span className="material-symbols-outlined text-primary text-[48px]">
         add_moderator
       </span>
