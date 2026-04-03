@@ -20,7 +20,17 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginError{
-  state: boolean,
-  message:string
+export interface LoginError {
+  state: boolean;
+  message: string;
+}
+export interface User {
+  createdAt: string;
+  email: string;
+  isPremium: boolean;
+  name: string;
+  rating: number;
+  role: string;
+  savedPlaces: any[];
+  _id: string;
 }
