@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { LoginCardItems } from "@/common/type";
+import { LoginCardItems } from "@/common/types/logintypes";
 const LoginCard = ({ item }: { item: LoginCardItems }) => {
   const router = useRouter();
   const [loader, setLoader] = useState(false);
@@ -15,7 +15,7 @@ const LoginCard = ({ item }: { item: LoginCardItems }) => {
         <div className="flex flex-row gap-1">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 items-center">
-              <span className="material-symbols-outlined p-1 bg-amber-100 rounded">
+              <span className="material-symbols-outlined p-1 bg-amber-100 rounded text-gray-500">
                 {item?.icon}
               </span>
               <h1 className="text-md font-semibold">{item?.title}</h1>
@@ -23,10 +23,11 @@ const LoginCard = ({ item }: { item: LoginCardItems }) => {
             <h2 className="text-xs text-slate-400">{item?.descriptions}</h2>
           </div>
           <Image
-            src={item?.imagePath || "/file.svg"}
+            src={item?.imagePath || "/car.jpeg"}
             alt="Image alt"
             width={80}
             height={80}
+            unoptimized
           />
         </div>
         <Button

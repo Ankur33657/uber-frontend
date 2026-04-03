@@ -53,9 +53,7 @@ const BackgroundCheck = () => {
           <p className="text-xs text-slate-400">
             Ensure your face is clearly visible without sunglasses or hats.
           </p>
-          <Button variant="light" className="p-5 text-sm">
-            Select Photo
-          </Button>
+          <Button className="p-5 text-sm">Select Photo</Button>
         </div>
       </div>
 
