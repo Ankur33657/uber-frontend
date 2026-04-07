@@ -3,29 +3,74 @@ import Image from "next/image";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import { Badge } from "../ui/badge";
+import { toast } from "sonner";
+import { Spinner } from "../ui/spinner";
+const MAX_AMOUNT = 30000;
 interface checkListItems {
   id: number;
   heading: string;
   subHeading: string;
+  onCheck: () => void;
 }
-const VehicleInspection = () => {
+interface CheckItems {
+  light: boolean;
+  tire: boolean;
+  brake: boolean;
+}
+const VehicleInspection = ({
+  onSubmit,
+}: {
+  onSubmit: (goal: number) => Promise<void>;
+}) => {
+  const [check, setChecked] = useState<CheckItems>({
+    light: false,
+    tire: false,
+    brake: false,
+  });
+  const [loading, setLoading] = useState(false);
+  const [goal, setGoal] = useState<number>(2000);
   const checkListItems: checkListItems[] = [
     {
       id: 1,
       heading: "Exterior Lights",
       subHeading: " Headlights,brake lights and indicators",
+      onCheck: () => setChecked((prev) => ({ ...prev, light: !prev?.light })),
     },
     {
       id: 2,
-      heading: "Tires &amp; Wheels",
+      heading: "Tires & Wheels",
       subHeading: "Tread depth and proper inflation",
+      onCheck: () => setChecked((prev) => ({ ...prev, tire: !prev?.tire })),
     },
     {
       id: 3,
       heading: "Braking System",
       subHeading: "Responsive brakes and functional handbrake",
+      onCheck: () => setChecked((prev) => ({ ...prev, brake: !prev?.brake })),
     },
   ];
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      if (!check?.brake || !check?.light || !check?.tire) {
+        toast.error("Check the Vehicle Inspections");
+        return;
+      }
+      if (goal <= 0) {
+        toast.error("Set the Goal");
+        return;
+      }
+      await onSubmit(goal);
+    } catch (error) {
+      console.log(error);
+      toast.error("Error in Creating Captain Account");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col gap-3">
       <p className="text-sm text-slate-500">
@@ -48,7 +93,10 @@ const VehicleInspection = () => {
           key={item?.id}
           className="bg-white p-3 rounded-sm flex flex-row gap-4 items-center"
         >
-          <Checkbox className="bg-white border border-primary w-5 h-5" />
+          <Checkbox
+            className="bg-white border border-primary w-5 h-5"
+            onClick={() => item?.onCheck()}
+          />
           <div className="flex flex-col">
             <p className="text-sm font-bold">{item?.heading}</p>
             <p className="text-xs text-slate-500 ">{item?.subHeading}</p>
@@ -69,23 +117,37 @@ const VehicleInspection = () => {
             type="number"
             placeholder="0.00"
             className="border-none outline-none focus:!ring-0 shadow-none text-center text-lg"
+            value={goal}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              if (value > MAX_AMOUNT) {
+                toast.error("Amount cannot exceed ₹30,000");
+                setGoal(MAX_AMOUNT);
+              } else {
+                setGoal(value);
+              }
+            }}
           />
         </div>
         <div className="flex flex-row justify-between">
-          <p className="border border-primary/20 bg-white px-4 py-1 rounded-md">
-            IN-5000
-          </p>
-          <p className="border border-primary/20 bg-white px-4 py-1 rounded-md">
-            IN-10000
-          </p>
-          <p className="border border-primary/20 bg-white px-4 py-1 rounded-md">
-            IN-15000
-          </p>
+          <Badge onClick={() => setGoal(5000)}>INR-5000</Badge>
+          <Badge onClick={() => setGoal(10000)}>INR-10000</Badge>
+          <Badge onClick={() => setGoal(15000)}>INR-15000</Badge>
         </div>
       </div>
-      <Button className="p-6 flex flex-row gap-2 items-center">
-        <p className="text-md"> Submit for Review</p>
-        <span className="material-symbols-outlined">arrow_right_alt</span>
+      <Button
+        className="p-6 flex flex-row gap-2 items-center"
+        disabled={loading}
+        onClick={handleSubmit}
+      >
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <p className="text-md"> Submit for Review</p>
+            <span className="material-symbols-outlined">arrow_right_alt</span>
+          </>
+        )}
       </Button>
       <p className="text-xs text-slate-400 text-center">
         {" "}

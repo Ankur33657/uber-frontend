@@ -5,7 +5,7 @@ export const CardItems = [
     title: "Continue As Rider",
     descriptions:
       " Find a ride and get to your destination quickly and safely.",
-    imagePath: "/file.svg",
+    imagePath: "/rider.jpeg",
     buttonText: "Select Rider",
     route: "/auth/userlogin",
   },
@@ -14,18 +14,39 @@ export const CardItems = [
     icon: "directions_car",
     title: "Continue as Captain",
     descriptions: "Drive with us and earn money on your own flexible schedule.",
-    imagePath: "/file.svg",
+    imagePath: "/captain.jpeg",
     buttonText: "Select Captain",
     route: "/auth/captainlogin",
   },
 ];
 
-export const MobileNavbarItems = [
-  { id: 1, icon: "home", name: "Home", route: "/home" },
-  { id: 2, icon: "history", name: "Activity", route: "/activity" },
+export const MobileNavbarItems = (isCaptain: boolean) => [
+  {
+    id: 1,
+    icon: "home",
+    name: "Home",
+    route: isCaptain ? "/captain/home" : "/home",
+  },
+  {
+    id: 2,
+    icon: isCaptain ? "payments" : "history",
+    name: isCaptain ? "Earning" : "Activity",
+    route: isCaptain ? "/captain/earning" : "/activity",
+  },
   { id: 3, icon: "group", name: "Community", route: "/community" },
-  { id: 4, icon: "account_balance_wallet", name: "Wallet", route: "/wallet" },
-  { id: 5, icon: "person", name: "Profile", route: "/profile" },
+  {
+    id: 4,
+    icon: "account_balance_wallet",
+    name: "Wallet",
+    route: "/wallet",
+    hide: true,
+  },
+  {
+    id: 5,
+    icon: "person",
+    name: isCaptain ? "Account" : "Profile",
+    route: isCaptain ? "/captain/account" : "/profile",
+  },
 ];
 
 export const dummyAddress = [
@@ -74,3 +95,11 @@ export enum VehicleImageMap {
   CARXL = "/carXL.jpeg",
   CARXXL = "/carXXL.jpeg",
 }
+
+export const RegixMatcher: {
+  ADHAR: RegExp;
+  PAN: RegExp;
+} = {
+  ADHAR: /^\d{12}$/,
+  PAN: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
+};

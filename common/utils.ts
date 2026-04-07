@@ -1,7 +1,8 @@
 import validator from "validator";
 import { payloadItems } from "./types/signuptypes";
 import { generateUploadButton, generateReactHelpers } from "@uploadthing/react";
-
+import { BasicItems } from "@/app/auth/captainsignup/page";
+import Cookies from "js-cookie";
 export const UsersignUpValidation = async (payload: payloadItems) => {
   const isValidEmail = validator.isEmail(payload?.email);
   //   const isValidPhone = validator.isMobilePhone(payload?.phone);
@@ -24,6 +25,8 @@ export const UsersignUpValidation = async (payload: payloadItems) => {
   };
 };
 
+
+
 export const { useUploadThing, uploadFiles } = generateReactHelpers({
   url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/uploadthing`,
 });
@@ -39,11 +42,17 @@ export const OpenUrl = (url: string) => {
 
   window.open(finalUrl, "_blank", "noopener,noreferrer");
 };
+
+export const CurrentRoleCaptain = () => {
+  const captain = Cookies?.get("captainToken");
+  return captain ? true : false;
+};
 const Utils = {
   UsersignUpValidation,
   UploadButton,
   useUploadThing,
   uploadFiles,
   OpenUrl,
+  CurrentRoleCaptain,
 };
 export default Utils;

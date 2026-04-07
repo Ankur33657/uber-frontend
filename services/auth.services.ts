@@ -34,5 +34,33 @@ const userLogout = async () => {
     throw errorMessage;
   }
 };
-const authServices = { userLogin, userSignUp, userLogout };
+
+const CaptainLogin = async (payload: any) => {
+  try {
+    const res = await apiInstance.post("/captain/login", payload);
+    return res?.data;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message;
+    console.log(errorMessage);
+    throw errorMessage;
+  }
+};
+
+const CaptainSignup = async (payload: any) => {
+  try {
+    const res = await apiInstance?.post("/captain/signup", payload);
+    return res?.data;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message;
+    console.log(errorMessage);
+    throw errorMessage;
+  }
+};
+const authServices = {
+  userLogin,
+  userSignUp,
+  userLogout,
+  CaptainLogin,
+  CaptainSignup,
+};
 export default authServices;
