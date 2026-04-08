@@ -1,18 +1,40 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DeleteConfirm from "../dialog/deleteconfirm";
+import { toast } from "sonner";
+import authServices from "@/services/auth.services";
+import { useGetCaptainStatus } from "./services";
 const CaptainOnline = () => {
-    const [isOnline, setIsOnLine] = useState(false);
-    const [open,setOpen]=useState(false)
-    const handleOnline = async() => {
-        setIsOnLine((prev) => !prev)
-        setOpen(false)
+  const { data: captainStatus } = useGetCaptainStatus();
+  const [isOnline, setIsOnLine] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [User, setUser] = useState<any>(null);
+  const handleOnline = async () => {
+    const res = await authServices?.CaptainEdit({ online: !isOnline });
+    if (res?.data) {
+      setIsOnLine((prev: boolean) => !prev);
+      setOpen(false);
     }
+  };
+
+  useEffect(() => {
+    if (!captainStatus) return;
+    setIsOnLine(Boolean(captainStatus?.data?.isOnline));
+    const userString = localStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
+
+    if (user) setUser(user);
+  }, [captainStatus]);
+
 
     return (
       <>
         <div
-          onClick={() => setOpen((prev) => !prev)}
+          onClick={() => {
+            if (User?.role == "rider") {
+              toast.error("Our Team soon contact you for the verification");
+            } else setOpen((prev) => !prev);
+          }}
           className="group cursor-pointer rounded-2xl bg-white shadow-md hover:shadow-xl transition-all duration-300 p-4 flex items-center justify-between border border-gray-100"
         >
           <div className="flex flex-col">

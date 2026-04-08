@@ -77,6 +77,7 @@ export enum QueryKey {
   COMMUNITY_POST = "community-post",
   COMMUNITY_STORIES = "stories",
   ALL_NEWS = "news",
+  CAPTAIN_STATUS = "captain-status",
 }
 
 export enum StaleTime {

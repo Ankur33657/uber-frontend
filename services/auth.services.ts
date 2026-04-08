@@ -4,7 +4,7 @@ import { LoginRequest } from "@/common/types/logintypes";
 const userLogin = async (data: LoginRequest) => {
   try {
     const response = await apiInstance.post("/user/login", data);
-    return response;
+    return response?.data;
   } catch (error: any) {
     const errorMessage = error.response?.data?.message || error.message;
     console.log(errorMessage);
@@ -56,11 +56,36 @@ const CaptainSignup = async (payload: any) => {
     throw errorMessage;
   }
 };
+
+
+const CaptainEdit = async (payload: any) => {
+  try {
+    const res = await apiInstance.patch("/captain/profile/edit", payload);
+    return res?.data;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message;
+    console.log(errorMessage);
+    throw errorMessage;
+  }
+};
+
+const getCaptainStatus = async () => {
+  try {
+    const res = await apiInstance.get("/captain/getstatus");
+    return res?.data;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message;
+    console.log(errorMessage);
+    throw errorMessage;
+  }
+};
 const authServices = {
   userLogin,
   userSignUp,
   userLogout,
   CaptainLogin,
   CaptainSignup,
+  CaptainEdit,
+  getCaptainStatus,
 };
 export default authServices;

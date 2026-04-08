@@ -40,7 +40,7 @@ const UserLogin = () => {
     const payload = { email: login?.email, password: login?.password };
     try {
       const res = await authServices?.userLogin(payload);
-      localStorage.setItem("user", JSON.stringify(res?.data?.data));
+      localStorage.setItem("user", JSON.stringify(res?.data));
       if (res?.data) route.push("/home");
     } catch (err: any) {
       setError({

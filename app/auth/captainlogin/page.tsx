@@ -21,7 +21,8 @@ const CaptainLogin = () => {
       const payload = { email: login?.email, password: login?.password };
       const res = await authServices.CaptainLogin(payload);
       if (res) {
-        router.push("/home");
+        localStorage.setItem("user", JSON.stringify(res?.data));
+        router.push("/captain/home");
       }
     } catch (error: any) {
       console.log(error);
