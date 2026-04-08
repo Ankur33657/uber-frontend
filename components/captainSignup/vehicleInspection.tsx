@@ -130,9 +130,24 @@ const VehicleInspection = ({
           />
         </div>
         <div className="flex flex-row justify-between">
-          <Badge onClick={() => setGoal(5000)}>INR-5000</Badge>
-          <Badge onClick={() => setGoal(10000)}>INR-10000</Badge>
-          <Badge onClick={() => setGoal(15000)}>INR-15000</Badge>
+          <Badge
+            onClick={() => setGoal(5000)}
+            className="bg-primary text-white"
+          >
+            INR-5000
+          </Badge>
+          <Badge
+            onClick={() => setGoal(10000)}
+            className="bg-primary text-white"
+          >
+            INR-10000
+          </Badge>
+          <Badge
+            onClick={() => setGoal(15000)}
+            className="bg-primary text-white"
+          >
+            INR-15000
+          </Badge>
         </div>
       </div>
       <Button

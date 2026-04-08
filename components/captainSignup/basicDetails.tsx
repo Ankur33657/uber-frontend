@@ -1,7 +1,8 @@
 import { Input } from "../ui/input";
 import PhoneInput from "react-phone-input-2";
 import { Button } from "../ui/button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Textarea } from "../ui/textarea";
 import {
   Select,
   SelectContent,
@@ -31,6 +32,7 @@ const BasicDetails = ({
     vechicleNumber: "",
     drivingLicene: undefined,
     VehicleInsurance: undefined,
+    desc: "",
   });
   const licenseRef = useRef<HTMLInputElement | null>(null);
   const insuranceRef = useRef<HTMLInputElement | null>(null);
@@ -40,10 +42,17 @@ const BasicDetails = ({
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+ 
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    setBasicItems((prev) => ({ ...prev, name: user?.name }));
+  }, []);
   const handleSubmitForm = async () => {
     setLoading(true);
     const hasError =
       !basicItems?.name.trim() ||
+      basicItems?.desc.trim().length < 100 ||
       !basicItems?.phone.trim() ||
       !basicItems?.make.trim() ||
       !basicItems?.model.trim() ||
@@ -232,6 +241,27 @@ const BasicDetails = ({
             <p className="text-red-500 text-xs">*required</p>
           )}
         </div>
+      </div>
+      <div className="flex flex-col">
+        <h1 className="text-xs">Descriptions</h1>
+        <div className="relative">
+          <Textarea
+            placeholder="Describe your vehicle"
+            minLength={200}
+            maxLength={200}
+            className="focus:ring-0! shadow-none text-slate-600 p-2 h-20 text-md pr-16"
+            value={basicItems?.desc}
+            onChange={(e: any) =>
+              setBasicItems((prev) => ({ ...prev, desc: e.target.value }))
+            }
+          />
+          <span className="absolute bottom-2 right-3 text-xs text-slate-400">
+            {basicItems?.desc?.length || 0}/200
+          </span>
+        </div>
+        {error && basicItems?.desc.length < 100 && (
+          <p className="text-xs text-red-500">min required* 100-words</p>
+        )}
       </div>
       <div className="flex flex-col">
         <p className="text-md text-primary font-bold">Documents</p>

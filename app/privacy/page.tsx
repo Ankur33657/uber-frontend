@@ -4,12 +4,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
 export default function PrivacyPolicyPage() {
-    const route = useRouter();
+  const route = useRouter();
   return (
-    <Card className="max-w-4xl w-full">
+    <Card className="max-w-4xl w-full h-screen bg-white">
       <CardContent>
         <div className="flex flex-row gap-2 items-center">
-          <span className="material-symbols-outlined" onClick={()=>route.back()}>arrow_left_alt</span>
+          <span
+            className="material-symbols-outlined"
+            onClick={() => route.back()}
+          >
+            arrow_left_alt
+          </span>
           <h1 className="text-2xl font-bold">Privacy Policy</h1>
         </div>
 

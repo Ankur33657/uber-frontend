@@ -52,7 +52,7 @@ const UserLogin = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 bg-white h-screen">
       <div className="relative">
         <Image
           src="/loginBanner.png"
@@ -128,7 +128,7 @@ const UserLogin = () => {
         </div>
         <Button
           variant="outline"
-          className="p-5 bg-slate-300"
+          className="p-5 bg-slate-200"
           onClick={() => signInWithSocial("google")}
           disabled={googleLoader}
         >

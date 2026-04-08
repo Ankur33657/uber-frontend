@@ -6,6 +6,7 @@ import BackgroundCheck from "@/components/captainSignup/backgroundCheck";
 import VehicleInspection from "@/components/captainSignup/vehicleInspection";
 import { useUploadThing } from "@/common/utils";
 import authServices from "@/services/auth.services";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 export interface BasicItems {
   name: string;
@@ -15,6 +16,7 @@ export interface BasicItems {
   vechicleNumber: string;
   drivingLicene: File | undefined;
   VehicleInsurance: File | undefined;
+  desc: string;
 }
 export interface BackgroundCheckItems {
   panNumber: string;
@@ -28,6 +30,7 @@ export interface GoalItem {
 type signupItems = BasicItems & BackgroundCheckItems & GoalItem;
 const CaptainSignUp = () => {
   const { startUpload } = useUploadThing("imageUploader");
+  const router = useRouter();
   const [signup, setSignup] = useState<signupItems>({
     name: "",
     phone: "",
@@ -40,6 +43,7 @@ const CaptainSignUp = () => {
     AdharNumber: "",
     photo: undefined,
     earningGoal: 0,
+    desc: "",
   });
   const [step, setStep] = useState(1);
   const handleSubmit = async (goal: number) => {
@@ -71,10 +75,12 @@ const CaptainSignUp = () => {
             url: photo?.[0]?.url ?? "",
           },
           earningGoal: goal,
+          desc: signup?.desc,
         };
         const res = await authServices?.CaptainSignup(payload);
         if (res) {
           toast.success("wait for the support team for approval");
+          // router.push("/profile");
         }
       } else {
         throw Error("Sothing went wrong");

@@ -10,7 +10,7 @@ const LoginCard = ({ item }: { item: LoginCardItems }) => {
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   return (
-    <Card>
+    <Card className="w-full rounded-md">
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-row gap-1">
           <div className="flex flex-col gap-2">

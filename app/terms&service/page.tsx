@@ -4,12 +4,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
 export default function TermsPage() {
-    const route = useRouter();
+  const route = useRouter();
   return (
-    <Card className="max-w-4xl w-full">
+    <Card className="max-w-4xl w-full h-screen bg-white">
       <CardContent>
         <div className="flex flex-row gap-2 items-center">
-          <span onClick={()=>route.back()} className="material-symbols-outlined">arrow_left_alt</span>
+          <span
+            onClick={() => route.back()}
+            className="material-symbols-outlined"
+          >
+            arrow_left_alt
+          </span>
           <h1 className="text-2xl font-bold">Terms of Service</h1>
         </div>
 

@@ -7,12 +7,12 @@ export const AUTH_ROUTE = [
   "/auth/usersignup",
   "/auth/userlogin",
   "/auth/captainlogin",
-  "/auth/captainsignup",
   "/terms&service",
   "/privacy",
   "/auth/callback",
 ];
 const USER_AUTHENTICATED_ROUTE = [
+  "/auth/captainsignup",
   "/activity",
   "/community",
   "/home",

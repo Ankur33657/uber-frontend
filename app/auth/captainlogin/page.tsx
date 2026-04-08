@@ -1,11 +1,11 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import authServices from "@/services/auth.services";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 const CaptainLogin = () => {
   const router = useRouter();
   const [login, setLogin] = useState({
@@ -31,13 +31,23 @@ const CaptainLogin = () => {
     }
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-screen bg-white">
       <div className="flex flex-row justify-between p-4">
         <div className="flex flex-row gap-2 items-center">
-          <span className="material-symbols-outlined">arrow_back</span>
+          <span
+            className="material-symbols-outlined"
+            onClick={() => router.back()}
+          >
+            arrow_back
+          </span>
           <h1 className="text-xl font-bold">captain Portal</h1>
         </div>
-        <h1 className="text-primary">Help</h1>
+        <h1
+          className="text-primary"
+          onClick={() => toast.success("Help support comming soon..")}
+        >
+          Help
+        </h1>
       </div>
       <div className="@container">
         <div className="@[480px]:px-4 @[480px]:py-3">
@@ -128,12 +138,9 @@ const CaptainLogin = () => {
               </div>
             )}
           </Button>
-
-          <p className="text-xs flex justify-center">
-            Don&apos;have a Captain Account?
-            <Link className="underline text-primary" href="/auth/captainsignup">
-              Apply to Drive{" "}
-            </Link>
+          <p className="text-xs text-red-600">
+            Don&apos;t have a Captain account? Sign up as a user and upgrade to
+            a captain from the profile tab.
           </p>
         </div>
       </div>
