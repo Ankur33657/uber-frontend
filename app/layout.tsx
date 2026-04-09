@@ -32,9 +32,11 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen bg-gray-100 flex justify-center`}
       >
-        <Provider>{children}</Provider>
+        <div className="w-full max-w-120 h-full bg-white relative overflow-y-auto scrollbar-hide ">
+          <Provider>{children}</Provider>
+        </div>
       </body>
     </html>
   );

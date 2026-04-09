@@ -104,7 +104,7 @@ const UserSignup = () => {
     }
   };
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 h-screen bg-white">
       <div className="relative h-60 w-full overflow-hidden">
         <Image
           className="w-full h-full object-cover"

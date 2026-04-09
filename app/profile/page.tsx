@@ -72,7 +72,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-3 p-4">
+    <div className="flex flex-col gap-4 p-4 md:p-6">
       <section className="relative overflow-visible">
         <div className="flex flex-col md:flex-row items-end md:items-center gap-6">
           <div className="relative">
@@ -97,8 +97,12 @@ const Profile = () => {
                 Elite Member
               </p>
             ) : (
-              <Button className="p-4" variant={"outline"}>
-                Go for premium
+              <Button
+                className="p-4"
+                variant={"outline"}
+                onClick={() => router.push("/auth/captainsignup")}
+              >
+                Go for Captain
               </Button>
             )}
 
@@ -150,15 +154,15 @@ const Profile = () => {
           {item?.component()}
         </div>
       ))}
-      <div className="flex flex-row justify-between">
-        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-40">
+      <div className="flex flex-row justify-between gap-4">
+        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-[50%]">
           <span className="material-symbols-outlined text-primary">
             help_center
           </span>
           <h1 className="text-sm font-bold ">Help Center</h1>
         </div>
         <div
-          className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-40"
+          className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-[50%]"
           onClick={() => router.push("/privacy")}
         >
           <span className="material-symbols-outlined text-primary">
