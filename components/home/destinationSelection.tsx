@@ -43,7 +43,7 @@ export default function DestinationSelection({
     data?.journeyTime?.toDateString() === new Date().toDateString();
   return (
     <>
-      <div className="absolute bottom-0 left-0 right-0 z-50 p-2">
+      <div className="absolute top-2 left-0 right-0 z-50 p-2">
         <div className="bg-white rounded-sm shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-2 max-w-md mx-auto">
           <div className="flex justify-between items-center p-2 bg-slate-100 rounded-md">
             <div className="flex flex-row gap-2 items-center w-full">
