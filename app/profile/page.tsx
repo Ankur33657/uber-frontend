@@ -1,8 +1,8 @@
 "use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import LogOutUser from "@/components/logoutButton";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import {
   Tooltip,
@@ -11,9 +11,22 @@ import {
 } from "@/components/ui/tooltip";
 import { User } from "@/common/types/logintypes";
 import { Button } from "@/components/ui/button";
+
 const Profile = () => {
-  const user: User = JSON.parse(localStorage?.getItem("user") ?? "");
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Failed to parse user from localStorage", e);
+      }
+    }
+  }, []);
+
   const personalItems = [
     {
       id: 1,
@@ -40,36 +53,38 @@ const Profile = () => {
       id: 1,
       icon: "bedtime",
       name: "Dark Atmosphere",
-      component: () => {
-        return (
-          <Tooltip>
-            <TooltipTrigger>
-              <Switch disabled={true} />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Feature comming soon..</p>
-            </TooltipContent>
-          </Tooltip>
-        );
-      },
+      component: () => (
+        <Tooltip>
+          <TooltipTrigger>
+            <Switch disabled={true} />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Feature coming soon..</p>
+          </TooltipContent>
+        </Tooltip>
+      ),
     },
     {
       id: 2,
       icon: "notifications_active",
       name: "Smart Notification",
-      component: () => {
-        return <Switch />;
-      },
+      component: () => <Switch />,
     },
     {
       id: 3,
       icon: "bring_your_own_ip",
       name: "System Language",
-      component: () => {
-        return <div className="text-xs">English (US)</div>;
-      },
+      component: () => <div className="text-xs">English (US)</div>,
     },
   ];
+
+  if (!user) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6">
@@ -109,19 +124,19 @@ const Profile = () => {
             <h2 className="text-4xl font-headline font-extrabold text-on-surface leading-tight">
               {user?.name}
               <br />
-              {user?.role.toUpperCase()}
+              {user?.role?.toUpperCase()}
             </h2>
           </div>
         </div>
       </section>
       <div className="flex flex-row justify-between items-center">
         <h1 className="text-xl font-bold">Identity & Reach</h1>
-        <h2 className="text-xs font-bold uppercase text-primary">
+        <h2 className="text-xs font-bold uppercase text-primary cursor-pointer">
           Edit Details
         </h2>
       </div>
       {personalItems.map((item) => {
-        if (!item?.value || item?.value?.length === 0) return null;
+        if (!item?.value) return null;
         return (
           <div
             key={item?.id}
@@ -155,14 +170,14 @@ const Profile = () => {
         </div>
       ))}
       <div className="flex flex-row justify-between gap-4">
-        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-[50%]">
+        <div className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-[50%] cursor-pointer">
           <span className="material-symbols-outlined text-primary">
             help_center
           </span>
           <h1 className="text-sm font-bold ">Help Center</h1>
         </div>
         <div
-          className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-[50%]"
+          className="p-6 rounded-xl flex flex-col gap-2 bg-slate-200 shadow-xs w-[50%] cursor-pointer"
           onClick={() => router.push("/privacy")}
         >
           <span className="material-symbols-outlined text-primary">
@@ -175,4 +190,5 @@ const Profile = () => {
     </div>
   );
 };
+
 export default Profile;
