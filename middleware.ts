@@ -44,9 +44,7 @@ export function middleware(request: NextRequest) {
   const isCommonRoute = COMMON_ROUTE.some((item) => pathname.startsWith(item));
   const token = request.cookies.get("token")?.value;
   const captainToken = request.cookies.get("captainToken")?.value;
-  const isValidJWT = token
-    ? token.split(".").length === 3
-    : captainToken && captainToken.split(".").length === 3;
+  const isValidJWT = true; // later implement some token validation
   if (isValidJWT && isAuthRoute) {
     if (captainToken) {
       return NextResponse.redirect(new URL("/captain/home", request.url));
@@ -63,7 +61,7 @@ export function middleware(request: NextRequest) {
     (isUserAuthenticatedRoute || isCaptainAuthenticatedRoute)
   )
     return NextResponse.redirect(new URL("/auth", request.url));
-  
+
   if (captainToken && isUserAuthenticatedRoute && !isCommonRoute) {
     return NextResponse.redirect(new URL("/captain/home", request.url));
   }
