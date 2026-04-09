@@ -22,7 +22,7 @@ export default function RideSelection({
     ride: { key: "", cost: 0 },
   });
   return (
-    <div className="absolute bottom-0 left-0 right-0 z-50 max-h-80 overflow-y-auto">
+    <div className="absolute bottom-0 left-0 right-0 z-50 max-h-80 overflow-y-auto scrollbar-hide ">
       <div className="flex flex-col gap-2 bg-white p-4 border-t-3 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] rounded-t-2xl">
         <p className="text-xl font-bold">Choose a ride</p>
         {data?.map((item, idx) => (
