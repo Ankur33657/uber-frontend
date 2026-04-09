@@ -10,12 +10,12 @@ const LoginCard = ({ item }: { item: LoginCardItems }) => {
   const router = useRouter();
   const [loader, setLoader] = useState(false);
   return (
-    <Card>
+    <Card className="w-full rounded-md">
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-row gap-1">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-3 items-center">
-              <span className="material-symbols-outlined p-1 bg-amber-100 rounded text-gray-500">
+              <span className="material-symbols-outlined p-1 bg-slate-400 rounded text-black">
                 {item?.icon}
               </span>
               <h1 className="text-md font-semibold">{item?.title}</h1>
@@ -27,11 +27,11 @@ const LoginCard = ({ item }: { item: LoginCardItems }) => {
             alt="Image alt"
             width={80}
             height={80}
-            unoptimized
+            className="rounded-full w-24 h-24 object-cover"
           />
         </div>
         <Button
-          className="w-full"
+          className="w-full p-5"
           onClick={() => {
             setLoader(true);
             router.push(item?.route);

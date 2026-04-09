@@ -65,7 +65,7 @@ export default function DestinationSelection({
 
                 <DropdownMenuContent
                   align="center"
-                  className="w-auto max-w-none text-center m-auto"
+                  className="w-auto max-w-none text-center"
                 >
                   <DropdownMenuGroup>
                     {dummyAddress.map((item) => (

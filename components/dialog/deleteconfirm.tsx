@@ -34,9 +34,10 @@ const DeleteConfirm = ({
           </Button>
           <Button
             disabled={loading}
-            onClick={() => {
+            onClick={async () => {
               setLoading(true);
-              onSubmit();
+              await onSubmit();
+              setLoading(false);
             }}
           >
             {loading ? <Spinner /> : confirmBtntext}

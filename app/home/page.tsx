@@ -195,7 +195,7 @@ export default function Home() {
     }
   };
   return (
-    <div className="relative w-full h-[calc(100vh-64px)] overflow-hidden">
+    <div className="relative w-full h-[calc(100vh-64px)]">
       <div id="map" className="w-full h-full z-0" />
 
       {routes.length > 0 && homePageData?.step === 2 && (

@@ -1,16 +1,54 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
+import authServices from "@/services/auth.services";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 const CaptainLogin = () => {
+  const router = useRouter();
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+    isHidePassword: true,
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+      const payload = { email: login?.email, password: login?.password };
+      const res = await authServices.CaptainLogin(payload);
+      if (res) {
+        localStorage.setItem("user", JSON.stringify(res?.data));
+        router.push("/captain/home");
+      }
+    } catch (error: any) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-screen bg-white">
       <div className="flex flex-row justify-between p-4">
         <div className="flex flex-row gap-2 items-center">
-          <span className="material-symbols-outlined">arrow_back</span>
+          <span
+            className="material-symbols-outlined"
+            onClick={() => router.back()}
+          >
+            arrow_back
+          </span>
           <h1 className="text-xl font-bold">captain Portal</h1>
         </div>
-        <h1 className="text-primary">Help</h1>
+        <h1
+          className="text-primary"
+          onClick={() => toast.success("Help support comming soon..")}
+        >
+          Help
+        </h1>
       </div>
       <div className="@container">
         <div className="@[480px]:px-4 @[480px]:py-3">
@@ -34,60 +72,78 @@ const CaptainLogin = () => {
         </div>
       </div>
       <div className="p-4">
-        <p className="text-xs text-slate-400 flex justify-center">
+        <p className="text-xs text-slate-600 flex justify-center">
           Log in to start earning and helping people get where they need to go.
         </p>
       </div>
 
       <div className="flex flex-col gap-2 p-4">
         <div className="flex flex-col gap-1">
-          <h1 className="text-xs">Email or Phone Number</h1>
+          <h1 className="text-xs">Email</h1>
           <Input
             type="text"
             placeholder="Email or Phone number"
             className="p-5 rounded-md border-gray-300 text-sm"
+            value={login?.email}
+            onChange={(e) =>
+              setLogin((prev) => ({ ...prev, email: e.target.value }))
+            }
           />
         </div>
         <div className="flex flex-col gap-1">
           <h1 className="text-xs">Password</h1>
           <div className="relative">
             <Input
-              type="text"
+              type={login?.isHidePassword ? "password" : "text"}
               placeholder="Enter your password"
               className="p-5 pr-12 rounded-md border-gray-300 text-sm"
+              value={login?.password}
+              onChange={(e) =>
+                setLogin((prev) => ({ ...prev, password: e.target.value }))
+              }
             />
 
-            <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer">
-              visibility
+            <span
+              className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer "
+              onClick={() =>
+                setLogin((prev) => ({
+                  ...prev,
+                  isHidePassword: !prev?.isHidePassword,
+                }))
+              }
+            >
+              {login?.isHidePassword ? "visibility_off" : "visibility"}
             </span>
           </div>
-          <h1 className="flex justify-end text-xs text-amber-500">
+          <h1 className="flex justify-end text-xs text-red-500 font-bold">
             Forgot password ?
           </h1>
         </div>
       </div>
-      <div className="p-4 flex flex-col gap-2">
-        <Button className="w-full">
-          <div className="flex flex-row gap-1 items-center">
-            <p className="text-sm">Go Online</p>
-            <span className="material-symbols-outlined">login</span>
-          </div>
-        </Button>
-        <p className="flex justify-center text-xs">OR LOGIN WITH</p>
-        <div className="flex flex-row justify-between">
-          <Button variant="outline" className="w-40">
-            Google
+      <div className="flex flex-col">
+        {error && (
+          <p className="text-red-500 text-xs font-bold w-full px-4">{error}</p>
+        )}
+        <div className=" px-4 flex flex-col gap-2 w-full">
+          <Button
+            className="w-full p-5"
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? (
+              <Spinner />
+            ) : (
+              <div className="flex flex-row gap-1 items-center">
+                <p className="text-sm">Go Online</p>
+                <span className="material-symbols-outlined">login</span>
+              </div>
+            )}
           </Button>
-          <Button variant="outline" className="w-40">
-            Facebook
-          </Button>
+          <p className="text-xs text-red-600">
+            Don&apos;t have a Captain account? Sign up as a user and upgrade to
+            a captain from the profile tab.
+          </p>
         </div>
-        <p className="text-xs flex justify-center">
-          Don&apos;have a Captain Account?
-          <Link className="underline text-primary" href="/auth/captainsignup">
-            Apply to Drive{" "}
-          </Link>
-        </p>
       </div>
     </div>
   );

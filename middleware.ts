@@ -7,12 +7,12 @@ export const AUTH_ROUTE = [
   "/auth/usersignup",
   "/auth/userlogin",
   "/auth/captainlogin",
-  "/auth/captainsignup",
   "/terms&service",
   "/privacy",
   "/auth/callback",
 ];
-const AUTHENTICATED_ROUTE = [
+const USER_AUTHENTICATED_ROUTE = [
+  "/auth/captainsignup",
   "/activity",
   "/community",
   "/home",
@@ -20,24 +20,57 @@ const AUTHENTICATED_ROUTE = [
   "/wallet",
 ];
 
+const COMMON_ROUTE = ["/community"];
+
+const CAPTAIN_AUTHENTICATED_ROUTE = [
+  "/captain/home",
+  "/captain/earning",
+  "/community",
+  "/captain/account",
+];
+
+
 export const AUTHENTICATED_WITHOUT_NAVBAR = ["/createstory", "viewstory"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAuthRoute = AUTH_ROUTE.some((item) => pathname === item);
-  const isAuthenticatedRoute = AUTHENTICATED_ROUTE.some((item) =>
+  const isUserAuthenticatedRoute = USER_AUTHENTICATED_ROUTE.some((item) =>
     pathname.startsWith(item),
   );
+  const isCaptainAuthenticatedRoute = CAPTAIN_AUTHENTICATED_ROUTE.some((item) =>
+    pathname.startsWith(item),
+  );
+  const isCommonRoute = COMMON_ROUTE.some((item) => pathname.startsWith(item));
   const token = request.cookies.get("token")?.value;
-  const isValidJWT = token && token.split(".").length === 3;
+  const captainToken = request.cookies.get("captainToken")?.value;
+  const isValidJWT = token
+    ? token.split(".").length === 3
+    : captainToken && captainToken.split(".").length === 3;
   if (isValidJWT && isAuthRoute) {
+    if (captainToken) {
+      return NextResponse.redirect(new URL("/captain/home", request.url));
+    }
     return NextResponse.redirect(new URL("/home", request.url));
   } else if (pathname === "/") {
-    if (isValidJWT) return NextResponse.redirect(new URL("/home", request.url));
+    if (isValidJWT)
+      return NextResponse.redirect(
+        new URL(`${captainToken ? "/captain/home" : "home"}`, request.url),
+      );
     else return NextResponse.redirect(new URL("/auth", request.url));
-  } else if (!isValidJWT && isAuthenticatedRoute)
+  } else if (
+    !isValidJWT &&
+    (isUserAuthenticatedRoute || isCaptainAuthenticatedRoute)
+  )
     return NextResponse.redirect(new URL("/auth", request.url));
+  
+  if (captainToken && isUserAuthenticatedRoute && !isCommonRoute) {
+    return NextResponse.redirect(new URL("/captain/home", request.url));
+  }
 
+  if (token && isCaptainAuthenticatedRoute && !isCommonRoute) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
   return NextResponse.next();
 }
 export const config = {

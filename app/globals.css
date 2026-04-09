@@ -6,6 +6,7 @@
 html,
 body {
     @apply min-h-screen;
+    scrollbar-gutter: stable;
 }
 
 @theme inline {
@@ -172,5 +173,13 @@ body {
         background-position:
             250% 0,
             250% 0;
+    }
+}
+
+@utility scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
     }
 }
