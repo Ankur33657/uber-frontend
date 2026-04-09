@@ -1,14 +1,15 @@
 "use client";
+import { Suspense, useEffect, useState, useCallback } from "react";
 import { useGetAllStories } from "@/components/community/service";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 import { formatDistanceToNow } from "date-fns";
-import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-const ViewStory = () => {
+
+const ViewStoryContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const id = searchParams.get("id");
@@ -35,6 +36,7 @@ const ViewStory = () => {
       router.push("/community");
     }
   }, [stories, currentIndex, router]);
+
   useEffect(() => {
     if (!story) return;
     const start = Date.now();
@@ -154,4 +156,10 @@ const ViewStory = () => {
   );
 };
 
-export default ViewStory;
+export default function ViewStory() {
+  return (
+    <Suspense fallback={<div className="h-screen w-full bg-black" />}>
+      <ViewStoryContent />
+    </Suspense>
+  );
+}

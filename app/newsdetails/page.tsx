@@ -1,19 +1,21 @@
 "use client";
+import { Suspense, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import Image from "next/image";
 import { useGetLastMonthsNews } from "@/components/community/service";
 import { NewsArticle } from "@/common/types/communitytypes";
 import { Button } from "@/components/ui/button";
 import Utils from "@/common/utils";
 import { Badge } from "@/components/ui/badge";
-const NewsDetails = () => {
+
+const NewsDetailsContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const id = searchParams?.get("id");
   const trending = searchParams?.get("trending");
   const { data: News, isLoading } = useGetLastMonthsNews();
   const [altImage, setAltImage] = useState(false);
+
   const newsDetails = (() => {
     if (!id || !News) return null;
     const isTrending = trending === "true";
@@ -23,8 +25,10 @@ const NewsDetails = () => {
 
     return found;
   })();
+
   if (isLoading) return <h1>Loading</h1>;
   if (!newsDetails) return <h3>No Article Found!!</h3>;
+
   return (
     <div>
       <Image
@@ -53,7 +57,6 @@ const NewsDetails = () => {
             {newsDetails?.authors.map((item, idx) => (
               <div key={idx} className="flex items-center">
                 <h2 className="text-sm font-medium">{item?.name}</h2>
-
                 {idx < newsDetails.authors.length - 1 && (
                   <span className="mr-1 font-bold">,</span>
                 )}
@@ -91,4 +94,11 @@ const NewsDetails = () => {
     </div>
   );
 };
-export default NewsDetails;
+
+export default function NewsDetails() {
+  return (
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <NewsDetailsContent />
+    </Suspense>
+  );
+}

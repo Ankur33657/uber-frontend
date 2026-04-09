@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -6,6 +7,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Feed from "@/components/community/feed";
 import Safety from "@/components/community/safety";
 import { StorySkelton, NewsSkelton } from "@/components/community/skelton";
+
 const Stories = dynamic(() => import("@/components/community/stories"), {
   loading: () => (
     <div className="flex flex-row gap-1">
@@ -19,13 +21,16 @@ const Stories = dynamic(() => import("@/components/community/stories"), {
 const News = dynamic(() => import("@/components/community/news"), {
   loading: () => <NewsSkelton />,
 });
-const Community = () => {
+
+const CommunityContent = () => {
   const searchParams = useSearchParams();
   const defaultTab = searchParams.get("tab") ?? "feed";
   const router = useRouter();
+
   const handleTabChange = (value: string) => {
     router.push(`?tab=${value}`, { scroll: false });
   };
+
   return (
     <div className="p-4 flex flex-col gap-4">
       <h1 className="text-md font-bold text-primary">TOP STORIES</h1>
@@ -62,4 +67,11 @@ const Community = () => {
     </div>
   );
 };
-export default Community;
+
+export default function Community() {
+  return (
+    <Suspense fallback={<div>Loading community...</div>}>
+      <CommunityContent />
+    </Suspense>
+  );
+}
