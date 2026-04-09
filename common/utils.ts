@@ -47,6 +47,9 @@ export const CurrentRoleCaptain = () => {
   const captain = Cookies?.get("captainToken");
   return captain ? true : false;
 };
+
+
+
 const Utils = {
   UsersignUpValidation,
   UploadButton,

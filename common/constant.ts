@@ -74,10 +74,11 @@ export const dummyAddress = [
 
 export enum QueryKey {
   ACTIVITY = "activity",
-  COMMUNITY_POST = "community-post",
+  COMMUNITY_POST = "communitypost",
   COMMUNITY_STORIES = "stories",
   ALL_NEWS = "news",
   CAPTAIN_STATUS = "captain-status",
+  CAPTAIN_WEEKLY_RECORD = "captainweeklyrecord",
 }
 
 export enum StaleTime {
