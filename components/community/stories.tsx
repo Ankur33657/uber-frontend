@@ -40,7 +40,7 @@ const Stories = () => {
           {item?.media?.type?.startsWith("video") && (
             <video
               src={item?.media?.url}
-              className="w-full h-full object-cover"
+              className="w-20 h-full object-cover"
               muted
               playsInline
               preload="metadata"

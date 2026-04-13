@@ -54,16 +54,6 @@ const WeeklyReport = () => {
               </p>
             </div>
           </div>
-
-          <a
-            className="text-primary font-bold text-xs flex items-center gap-1 hover:underline"
-            href="#"
-          >
-            View Details
-            <span className="material-symbols-outlined text-sm">
-              arrow_forward
-            </span>
-          </a>
         </div>
       </div>
 
@@ -85,11 +75,10 @@ const WeeklyReport = () => {
         <Progress
           value={
             (weeklyReport?.overall?.value ?? 0 * 100) /
-            captainStatus?.earningGoal 
+            captainStatus?.earningGoal
           }
           className="w-full m-2"
         />
-       
       </div>
     </section>
   );
